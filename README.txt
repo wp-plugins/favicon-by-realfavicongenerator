@@ -7,9 +7,7 @@ Stable tag: 1.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create and install your favicon for all platforms: PC/Mac of course, but also iPhone/iPad, Android devices, Windows 8 tablets, etc. 
-
-In a few clicks, you generate all the pictures you need to get the best results on all devices, from an old Android phone to a shiny Retina iPad. In addition, you can easily enforce the various platforms guidelines, such as an opaque background for the Apple touch icon or a saturated icon for Windows Metro UI tile. Better your odds at being bookmarked by providing the best experience to your visitors.
+Create and install your favicon for all platforms: PC/Mac of course, but also iPhone/iPad, Android devices, Windows 8 tablets...
 
 == Description ==
 
