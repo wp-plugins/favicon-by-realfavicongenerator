@@ -24,7 +24,7 @@ Save hours of research and image edition with RealFaviconGenerator and its compa
 -  iOS (Safari, Chrome, Coast)
 -  Android (Chrome, Firefox)
 -  Surface (IE)
--  ANd more
+-  And more
 
 We take compatibility very seriously. See http://realfavicongenerator.net/favicon_compatibility for the full list.
 
