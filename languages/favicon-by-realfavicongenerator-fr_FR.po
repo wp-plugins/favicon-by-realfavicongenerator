@@ -1,0 +1,90 @@
+# Copyright (C) 2014 Favicon by RealFaviconGenerator
+# This file is distributed under the same license as the Favicon by RealFaviconGenerator package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Favicon by RealFaviconGenerator 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/favicon-by-"
+"realfavicongenerator\n"
+"POT-Creation-Date: 2014-04-30 15:30:56+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-05-02 10:32+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr_FR\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:64
+msgid "Favicon Settings"
+msgstr "Réglages du favicon"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:64
+msgid "Favicon"
+msgstr "Favicon"
+
+#: admin/views/settings.php:22
+msgid "Favicon installation in progress. Please wait..."
+msgstr "Installation du favicon en cours. Veuillez patienter..."
+
+#: admin/views/settings.php:26 admin/views/settings.php:31
+msgid "Current favicon"
+msgstr "Favicon actuel"
+
+#: admin/views/settings.php:27 admin/views/settings.php:34
+msgid "The favicon is up and ready."
+msgstr "Le favicon est installé."
+
+#: admin/views/settings.php:36
+msgid "No favicon has been configured yet."
+msgstr "Aucun favicon n'a été configuré pour le moment."
+
+#: admin/views/settings.php:49
+msgid "Favicon generation"
+msgstr "Génération du favicon"
+
+#: admin/views/settings.php:51
+msgid "You can replace the existing favicon."
+msgstr "Vous pouvez remplacer le favicon existant."
+
+#: admin/views/settings.php:58
+msgid "Master picture URL"
+msgstr "URL de l'image de base"
+
+#: admin/views/settings.php:62 admin/views/settings.php:63
+msgid "Select from the Media Library"
+msgstr "Sélectionner dans la Bibliothèque de médias"
+
+#: admin/views/settings.php:66
+msgid "Submit a square picture, at least 70x70 (recommended: 260x260 or more)"
+msgstr ""
+"Utilisez une image carrée en 70x70 minimum (recommandé: 260x260 ou plus)"
+
+#: admin/views/settings.php:68
+msgid ""
+"If the picture is on your hard drive, you can leave this field blank and "
+"upload the picture from RealFaviconGenerator."
+msgstr ""
+"Si l'image est sur votre disque dur, vous pouvez laisser ce champ vide et "
+"envoyer une image depuis l'interface de RealFaviconGenerator"
+
+#: admin/views/settings.php:75
+msgid "Generate favicon"
+msgstr "Générer le favicon"
+
+#. Plugin Name of the plugin/theme
+msgid "Favicon by RealFaviconGenerator"
+msgstr "Favicon par RealFaviconGenerator"
+
+#. Description of the plugin/theme
+msgid ""
+"Create and install your favicon for all platforms: PC/Mac of course, but "
+"also iPhone/iPad, Android devices, Windows 8 tablets, etc."
+msgstr ""
+"Créez et installez votre favicon pour toutes les plateformes : PC/Mac "
+"évidemment, mais aussi iPhone/iPad, appareils Android, tablettes Windows 8, "
+"etc."
+
+#. Author of the plugin/theme
+msgid "Philippe Bernard"
+msgstr "Philippe Bernard"
