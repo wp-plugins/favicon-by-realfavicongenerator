@@ -116,7 +116,7 @@
 <?php } ?>
 
 		params.favicon_generation.callback.type = 'url';
-		params.favicon_generation.callback.url = "<?php echo admin_url('options-general.php?page=favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_settings_menu') ?>";
+		params.favicon_generation.callback.url = "<?php echo admin_url('themes.php?page=favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_settings_menu') ?>";
 
 		return params;
 	}
