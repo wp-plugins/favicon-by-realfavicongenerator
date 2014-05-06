@@ -99,7 +99,6 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			$result = urldecode( stripslashes_deep( $_REQUEST['json_result'] ) );
 
 			$response = new Favicon_By_RealFaviconGenerator_Api_Response( $result );
-			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
 
 			$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
 			if ( ! file_exists( $zip_path ) ) {
@@ -113,6 +112,8 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 			Favicon_By_RealFaviconGenerator_Common::remove_directory( $zip_path );
 
+			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
+			
 			$this->set_favicon_configured();
 ?>
 {
