@@ -3,7 +3,7 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,12 @@ where you can design your favicon: adding a background to your iOS picture, usin
 This screen presents you a preview of the favicon you various platforms, so you know how your blog looks like on various platforms.
 
 == Changelog ==
+
+= 1.0.1 =
+
+- Favicon admin settings are now in the Appearance menu.
+- Fix in favicon package download.
+- Fix in error management during favicon installation. 
 
 = 1.0 =
 Initial version.
