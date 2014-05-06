@@ -208,13 +208,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	}
 	
 	private function downloadFile( $localPath, $url ) {
-		$content = file_get_contents( $url );
-		if ( $content === FALSE ) {
+		$resp = wp_remote_get( $url, array( 'filename' => $localPath, 'stream' => true ) );
+		if ( ( $resp == NULL ) || ( $resp == false ) || ( $resp['response'] == NULL ) || 
+			 ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
 			throw new InvalidArgumentException( "Cannot download file at " . $url );
 		}
-		$ret = file_put_contents( $localPath, $content );
-		if ( $ret === FALSE ) {
-			throw new InvalidArgumentException( "Cannot store content of " . $url . " to " . $localPath );
+		if ( ( ! file_exists( $localPath ) ) || ( filesize( $localPath ) <= 0 ) ) {
+			throw new InvalidArgumentException( "Cannot store downloaded file locally" );
 		}
 	}
 	
