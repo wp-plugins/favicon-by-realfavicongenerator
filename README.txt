@@ -36,7 +36,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 2. Search for 'Favicon by RealFaviconGenerator'
 3. Click 'Install Now'
 4. Activate the plugin on the Plugin dashboard
-5. Navigate to the 'Favicon' entry in the Settings menu
+5. Navigate to the 'Favicon' entry in the Appearance menu
 6. Select a master picture from the Media Library (optional)
 7. Click the 'Generate Favicon' button and follow the instructions.
 
@@ -46,7 +46,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 2. Extract the `favicon-by-realfavicongenerator` directory to your computer
 3. Upload the `favicon-by-realfavicongenerator` directory to the `/wp-content/plugins/` directory
 4. Activate the plugin on the Plugin dashboard
-5. Navigate to the 'Favicon' entry in the Settings menu
+5. Navigate to the 'Favicon' entry in the Appearance menu
 6. Select a master picture from the Media Library (optional)
 7. Click the 'Generate Favicon' button and follow the instructions.
 
