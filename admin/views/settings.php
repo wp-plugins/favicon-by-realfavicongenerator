@@ -6,7 +6,7 @@
 
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
-<?php if ( $new_favicon_params ) { ?>
+<?php if ( $new_favicon_params_url ) { ?>
 	<div id="install_in_progress_message" class="updated">
 		<p><?php _e( 'Favicon installation in progress. Please wait...', FBRFG_PLUGIN_SLUG ) ?></p>
 	</div>
@@ -39,9 +39,9 @@
 		}
 	  } ?>
 
-	<div id="favicon_form_container" <?php echo $new_favicon_params ? 'style="display:none"' : '' ?>>
+	<div id="favicon_form_container" <?php echo $new_favicon_params_url ? 'style="display:none"' : '' ?>>
 		<h3><?php _e( 'Favicon generation', FBRFG_PLUGIN_SLUG ) ?></h3>
-<?php if ( $favicon_configured || $new_favicon_params ) { ?>
+<?php if ( $favicon_configured || $new_favicon_params_url ) { ?>
 	<p><?php _e( 'You can replace the existing favicon.', FBRFG_PLUGIN_SLUG ) ?></p>
 <?php } ?>
 		<form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
@@ -117,14 +117,15 @@
 
 		params.favicon_generation.callback.type = 'url';
 		params.favicon_generation.callback.url = "<?php echo admin_url('themes.php?page=favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_settings_menu') ?>";
+		params.favicon_generation.callback.short_url = 'true';
 
 		return params;
 	}
 
-<?php if ( $new_favicon_params ) { ?>
+<?php if ( $new_favicon_params_url ) { ?>
 	var data = {
 		action: '<?php echo Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon' ?>',
-		json_result: '<?php echo $new_favicon_params ?>'
+		json_result_url: '<?php echo $new_favicon_params_url ?>'
 	};
 <?php } ?>
 	
@@ -133,7 +134,7 @@
 			jQuery('#json_params').val(JSON.stringify(computeJson()));
 		});
 
-<?php if ( $new_favicon_params ) { ?>
+<?php if ( $new_favicon_params_url ) { ?>
 		jQuery.get('<?php echo $ajax_url ?>', data, function(response) {
 			if (response.status == 'success') {
 				jQuery('#preview_image').attr('src', response.preview_url);

@@ -65,20 +65,16 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		$preview_url = $this->is_preview_available() ? $this->get_preview_url() : NULL;
 
-		if ( isset( $_REQUEST['json_result'] ) ) {
+		if ( isset( $_REQUEST['json_result_url'] ) ) {
 			// New favicon to install:
 			// Parameters will be processed with an Ajax call
 
-			// Encode the parameters to avoid special characters issues in JS
-			// (see settings.php).
-			// Note that this is *not* related to the classic encod/decode that occurs 
-			// when doing classic Ajax invocation, this is another "extra" encoding.
-			$new_favicon_params = urlencode( stripslashes_deep( $_REQUEST['json_result'] ) );
+			$new_favicon_params_url = $_REQUEST['json_result_url'];
 			$ajax_url = admin_url( 'admin-ajax.php', isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' );
 		}
 		else {
 			// No new favicon, simply display the settings page
-			$new_favicon_params = NULL;
+			$new_favicon_params_url = NULL;
 		}
 
 		// External files
@@ -91,12 +87,28 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		include_once( plugin_dir_path(__FILE__) . 'views/settings.php' );
 	}
 
+	private function download_result_json( $url ) {
+		$resp = wp_remote_get( $url );
+		if ( is_wp_error( $resp )) {
+			throw new InvalidArgumentException( "Cannot download JSON file at " . $url . ": " . $resp->get_error_message() );
+		}
+
+		$json = wp_remote_retrieve_body( $resp );
+		if ( empty( $json ) ) {
+			throw new InvalidArgumentException( "Empty JSON document at " . $url );
+		}
+
+		return $json;
+	}
+
 	public function install_new_favicon() {
 		header("Content-type: application/json");
 
 		try {
 			// URL is explicitely decoded to compensate the extra encoding performed while generating the settings page
-			$result = urldecode( stripslashes_deep( $_REQUEST['json_result'] ) );
+			$url = $_REQUEST['json_result_url'];
+
+			$result = $this->download_result_json( $url );
 
 			$response = new Favicon_By_RealFaviconGenerator_Api_Response( $result );
 
