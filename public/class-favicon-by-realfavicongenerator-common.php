@@ -103,4 +103,4 @@ class Favicon_By_RealFaviconGenerator_Common {
 }
 
 // Shortcut
-const FBRFG_PLUGIN_SLUG = Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG;
+define('FBRFG_PLUGIN_SLUG', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG);
