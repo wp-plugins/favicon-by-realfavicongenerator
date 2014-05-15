@@ -11,9 +11,9 @@ Create and install your favicon for all platforms: PC/Mac of course, but also iP
 
 == Description ==
 
-Favicon is not just a single `favicon.ico` file dropped in the middle of your site. Nowadays, with so many different platforms and devices, you need a bunch of pictures to get the job done.
+Favicon is not just a single `favicon.ico` file dropped in the middle of your site. Nowadays, with so many different platforms and devices, you need a bunch of pictures to get the job done. With RealFaviconGenerator, generate all the icons you need for desktop browsers, iPhone/iPad, Android devices, Windows 8 devices, and more.
 
-iOS devices use a high resolution Apple touch icon to illustrate bookmarks and home screen shortcuts. A first generation iPhone needs a 57x57 picture, whereas a brand new iPad with Retina screen looks for a 152x152 picture. Android Chrome also use this pictures if it finds them. Windows 8 takes another route with a dedicated set of icons and HTML declarations.
+iOS devices use a high resolution Apple touch icon to illustrate bookmarks and home screen shortcuts. A first generation iPhone needs a 57x57 picture, whereas a brand new iPad with Retina screen looks for a 152x152 picture. Android Chrome also use these pictures if it finds them. Windows 8 takes another route with a dedicated set of icons and HTML declarations.
 
 Favicon is not only a matter of pictures with different resolutions. The various platforms coms with different UI guidelines. For example, the classic desktop favicons often use transparency. But iOS requires opaque icons. And Windows 8 has its own recommendations.
 
