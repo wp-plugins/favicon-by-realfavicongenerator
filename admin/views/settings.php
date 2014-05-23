@@ -12,7 +12,7 @@
 	</div>
 
 	<div id="install_completed_message" class="updated" style="display:none">
-		<p>Favicon installed!</p>
+		<p><?php _e( 'Favicon installed!', FBRFG_PLUGIN_SLUG ) ?></p>
 	</div>
 	<div id="install_error_message" class="error" style="display:none"><p></p></div>
 
@@ -47,7 +47,7 @@
 		<form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
 			<input type="hidden" name="json_params" id="json_params"/>
 			<table class="form-table"><tbody>
-				<tr>
+				<tr valign="top">
 					<th scope="row">
 						<label for="master_picture_url"><?php _e( 'Master picture URL', FBRFG_PLUGIN_SLUG ) ?></label>
 					</th>
@@ -63,6 +63,23 @@
 						</p>
 					</td>
 				</tr>
+
+<?php if ( $can_rewrite ) { ?>
+				<tr valign="top">
+					<th scope="row">
+						<label for="rewrite"><?php _e( 'Favicon files in root directory', FBRFG_PLUGIN_SLUG ) ?></label>
+					</th>
+					<td>
+						<input type="checkbox" name="rewrite" id="rewrite" checked="true">
+						<p class="description">
+							<?php _e( 'The plugin always stores the favicon files in a dedicated directory.', FBRFG_PLUGIN_SLUG ) ?>
+							<br>
+							<?php _e( 'However, if this option is enabled, the plugin takes advantage of the permalink feature and the favicon files appear to be in the root directory', FBRFG_PLUGIN_SLUG ) ?>
+							(<a href="http://realfavicongenerator.net/faq#why_icons_in_root"><?php _e( 'recommended', FBRFG_PLUGIN_SLUG ) ?></a>)
+						</p>
+					</td>
+				</tr>
+<?php } ?>
 			</tbody></table>
 
 			<p class="submit">
@@ -108,8 +125,14 @@
 			params.favicon_generation.master_picture.url = jQuery('#master_picture_url').val();
 		}
 
-<?php if ( $pic_path == NULL ) { ?>
-		params.favicon_generation.files_location.type = 'root';
+<?php if ( $can_rewrite ) { ?>
+		if ( jQuery("#rewrite").is(':checked') ) {
+			params.favicon_generation.files_location.type = 'root';
+		}
+		else {
+			params.favicon_generation.files_location.type = 'path';
+			params.favicon_generation.files_location.path = '<?php echo $pic_path ?>';
+		}
 <?php } else { ?>
 		params.favicon_generation.files_location.type = 'path';
 		params.favicon_generation.files_location.path = '<?php echo $pic_path ?>';

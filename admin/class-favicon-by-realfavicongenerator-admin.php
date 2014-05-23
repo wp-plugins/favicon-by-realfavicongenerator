@@ -55,11 +55,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		// Prepare settings page
 
-		$pic_path = NULL;
-		if ( ! $this->can_access_pics_with_url_rewrite() ) {
-			// Not in root. Send the path to RFG for correct HTML code generation
-			$pic_path = $this->get_full_picture_path();
-		}
+		// Option to allow user to not use the Rewrite API: display it only when the Rewrite API is available
+		$can_rewrite = $this->can_access_pics_with_url_rewrite();
+		$pic_path = $this->get_full_picture_path();
 
 		$favicon_configured = $this->is_favicon_configured();
 
@@ -248,7 +246,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	public function can_access_pics_with_url_rewrite() {
 		global $wp_rewrite;
 
-		// If blog is in root AND rexriting is available (http://wordpress.stackexchange.com/questions/142273/checking-that-the-rewrite-api-is-available),
+		// If blog is in root AND rewriting is available (http://wordpress.stackexchange.com/questions/142273/checking-that-the-rewrite-api-is-available),
 		// we can produce URLs such as /favicon.ico
 		return ( $this->wp_in_root() && $wp_rewrite->using_permalinks() );
 	}
