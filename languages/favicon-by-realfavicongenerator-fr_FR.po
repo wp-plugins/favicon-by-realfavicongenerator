@@ -1,0 +1,122 @@
+# Copyright (C) 2014 Favicon by RealFaviconGenerator
+# This file is distributed under the same license as the Favicon by RealFaviconGenerator package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Favicon by RealFaviconGenerator 1.0.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/favicon-by-"
+"realfavicongenerator\n"
+"POT-Creation-Date: 2014-05-23 13:22:05+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Philippe Bernard <philippe@realfavicongenerator.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr_FR\n"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:48
+msgid "Favicon Settings"
+msgstr "Réglages du favicon"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:49
+msgid "Favicon"
+msgstr "Favicon"
+
+#: admin/views/settings.php:11
+msgid "Favicon installation in progress. Please wait..."
+msgstr "Installation du favicon en cours. Veuillez patienter..."
+                                               
+#: admin/views/settings.php:15
+msgid "Favicon installed!"
+msgstr "Favicon installé !"
+                                               
+#: admin/views/settings.php:20 admin/views/settings.php:25
+msgid "Current favicon"
+msgstr "Favicon actuel"
+
+#: admin/views/settings.php:21 admin/views/settings.php:28
+msgid "The favicon is up and ready."
+msgstr "Le favicon est installé."
+
+#: admin/views/settings.php:30
+msgid "No favicon has been configured yet."
+msgstr "Aucun favicon n'a été configuré pour le moment."
+
+#: admin/views/settings.php:43
+msgid "Favicon generation"
+msgstr "Génération du favicon"
+
+#: admin/views/settings.php:45
+msgid "You can replace the existing favicon."
+msgstr "Vous pouvez remplacer le favicon existant."
+
+#: admin/views/settings.php:52
+msgid "Master picture URL"
+msgstr "URL de l'image de base"
+
+#: admin/views/settings.php:56 admin/views/settings.php:57
+msgid "Select from the Media Library"
+msgstr "Sélectionner dans la Bibliothèque de médias"
+
+#: admin/views/settings.php:60
+msgid "Submit a square picture, at least 70x70 (recommended: 260x260 or more)"
+msgstr ""
+"Utilisez une image carrée en 70x70 minimum (recommandé: 260x260 ou plus)"
+
+#: admin/views/settings.php:62
+msgid ""
+"If the picture is on your hard drive, you can leave this field blank and "
+"upload the picture from RealFaviconGenerator."
+msgstr ""
+"Si l'image est sur votre disque dur, vous pouvez laisser ce champ vide et "
+"envoyer une image depuis l'interface de RealFaviconGenerator"
+
+#: admin/views/settings.php:70
+msgid "Favicon files in root directory"
+msgstr "Fichiers du favicon dans le répertoire racine"
+
+#: admin/views/settings.php:75
+msgid "The plugin always stores the favicon files in a dedicated directory."
+msgstr "Le plugin conserve toujours les fichiers du favicon dans un répertoire dédié."
+
+#: admin/views/settings.php:77
+msgid ""
+"However, if this option is enabled, the plugin takes advantage of the "
+"permalink feature and the favicon files appear to be in the root directory"
+msgstr ""
+"Cependant, si cette option est activée, "
+"le plugin tire parti des permaliens "
+"pour faire apparaitre les fichiers du favicon dans le répertoire racine"
+
+#: admin/views/settings.php:78
+msgid "recommended"
+msgstr "recommandé"
+
+#: admin/views/settings.php:87
+msgid "Generate favicon"
+msgstr "Générer le favicon"
+
+#. Plugin Name of the plugin/theme
+msgid "Favicon by RealFaviconGenerator"
+msgstr "Favicon par RealFaviconGenerator"
+
+#. Plugin URI of the plugin/theme
+msgid "http://realfavicongenerator.net/extensions/wordpress"
+msgstr "http://realfavicongenerator.net/extensions/wordpress"
+
+#. Description of the plugin/theme
+msgid ""
+"Create and install your favicon for all platforms: PC/Mac of course, but "
+"also iPhone/iPad, Android devices, Windows 8 tablets, etc."
+msgstr ""
+"Créez et installez votre favicon pour toutes les plateformes : PC/Mac "
+"évidemment, mais aussi iPhone/iPad, appareils Android, tablettes Windows 8, "
+"etc."
+
+#. Author of the plugin/theme
+msgid "Philippe Bernard"
+msgstr "Philippe Bernard"
+
+#. Author URI of the plugin/theme
+msgid "http://realfavicongenerator.net/"
+msgstr "http://realfavicongenerator.net/"
