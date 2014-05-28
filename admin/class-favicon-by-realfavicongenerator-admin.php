@@ -248,7 +248,18 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		// If blog is in root AND rewriting is available (http://wordpress.stackexchange.com/questions/142273/checking-that-the-rewrite-api-is-available),
 		// we can produce URLs such as /favicon.ico
-		return ( $this->wp_in_root() && $wp_rewrite->using_permalinks() );
+		$rewrite = ( $this->wp_in_root() && $wp_rewrite->using_permalinks() );
+		if ( ! $rewrite ) {
+			return false;
+		}
+
+		// See http://wordpress.org/support/topic/fbrfg-not-updating-htaccess-rewrite-rules
+		$htaccess = get_home_path() . DIRECTORY_SEPARATOR . '.htaccess';
+		// Two cases:
+		//   - There is no .htaccess. Either we are not using Apache (so the Rewrite API is supposed to handle
+		//     the rewriting differently) or there is a problem with Apache/WordPress config, but this is not our job.
+		//   - .htaccess is present. If so, it should be writable.
+		return ( ( ! file_exists( $htaccess ) ) || is_writable( $htaccess ) );
 	}
 
 	/**
