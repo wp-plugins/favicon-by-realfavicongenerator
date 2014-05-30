@@ -158,26 +158,34 @@
 		});
 
 <?php if ( $new_favicon_params_url ) { ?>
-		jQuery.get('<?php echo $ajax_url ?>', data, function(response) {
-			if (response.status == 'success') {
-				jQuery('#preview_image').attr('src', response.preview_url);
-				jQuery('#install_in_progress_message').fadeOut(function() {
-					jQuery('#install_completed_message').fadeIn();
-					jQuery('#install_completed_container').fadeIn();
-					jQuery('#favicon_form_container').fadeIn();
-				});
-			}
-			else {
-				var msg = "An error occured";
-				if (response.message != null) {
-					msg += ": " + response.message;
+		jQuery.get('<?php echo $ajax_url ?>', data)
+			.done(function(response) {
+				if (response.status == 'success') {
+					jQuery('#preview_image').attr('src', response.preview_url);
+					jQuery('#install_in_progress_message').fadeOut(function() {
+						jQuery('#install_completed_message').fadeIn();
+						jQuery('#install_completed_container').fadeIn();
+						jQuery('#favicon_form_container').fadeIn();
+					});
 				}
+				else {
+					var msg = "An error occured";
+					if (response.message != null) {
+						msg += ": " + response.message;
+					}
+					jQuery('#install_error_message p').html(msg);
+					jQuery('#install_in_progress_message').fadeOut(function() {
+						jQuery('#install_error_message').fadeIn();
+					});
+				}
+			})
+			.fail(function() {
+				var msg = "An internal error occured";
 				jQuery('#install_error_message p').html(msg);
 				jQuery('#install_in_progress_message').fadeOut(function() {
 					jQuery('#install_error_message').fadeIn();
 				});
-			}
-		});
+			});
 <?php } ?>
 
 		var fileFrame;
