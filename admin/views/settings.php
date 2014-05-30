@@ -180,7 +180,7 @@
 				}
 			})
 			.fail(function() {
-				var msg = "An internal error occured";
+				var msg = "An internal error occurred";
 				jQuery('#install_error_message p').html(msg);
 				jQuery('#install_in_progress_message').fadeOut(function() {
 					jQuery('#install_error_message').fadeIn();
