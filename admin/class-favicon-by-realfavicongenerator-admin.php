@@ -12,6 +12,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		add_action( 'admin_head', array( $this, 'add_favicon_markups' ) );
+
+		// Deactivate Genesis default favicon
+		add_filter( 'genesis_pre_load_favicon', array( $this, 'return_empty_favicon_for_genesis' ) );
 		
 		// Except for the headers, everything is accessible only to the admin
 		if ( ! is_super_admin() ) {

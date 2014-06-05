@@ -3,7 +3,7 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ where you can design your favicon: adding a background to your iOS picture, usin
 This screen presents you a preview of the favicon you various platforms, so you know how your blog looks like on various platforms.
 
 == Changelog ==
+
+= 1.0.7 =
+
+- Deactivate default Genesis favicon when one is configured in FbRFG.
 
 = 1.0.6 =
 

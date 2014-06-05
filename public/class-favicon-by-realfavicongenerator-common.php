@@ -52,6 +52,29 @@ class Favicon_By_RealFaviconGenerator_Common {
 		}
 	}
 
+	public function remove_genesis_favicon() {
+		// See http://dreamwhisperdesigns.com/genesis-tutorials/change-default-genesis-favicon/
+		// However, I didn't find the right hook to trigger this code in time to deactivate Genesis hooks.
+		// As a consequence, this function is not used and mostly here as a reference.
+		remove_action( 'genesis_meta', 'genesis_load_favicon' );
+		remove_action( 'wp_head', 'genesis_load_favicon' );
+	}
+
+	public function return_empty_favicon_for_genesis( $param ) {
+		$code = get_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE );
+		if ( $code ) {
+			// Why NULL?
+			// - It is not false (ie. the exact boolean value 'false')
+			// - When tested with 'if ($value)', the condition fails.
+			// See function genesis_load_favicon for more details
+			return NULL;
+		}
+		else {
+			// Return the value as is, no interference with the rest of WordPress
+			return $param;
+		}
+	}
+
 	/**
 	 * Returns /www/wordpress/wp-content/uploaded/fbrfg
 	 */
