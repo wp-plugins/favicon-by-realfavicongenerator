@@ -28,6 +28,12 @@ Save hours of research and image edition with RealFaviconGenerator and its compa
 
 We take compatibility very seriously. See http://realfavicongenerator.net/favicon_compatibility for the full list.
 
+** Localization **
+
+* English (`en_EN`) by [Philippe Bernard](http://realfavicongenerator.net/)
+* French (`fr_FR`) by [Philippe Bernard](http://realfavicongenerator.net/)
+* Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
+
 == Installation ==
 
 = Using The WordPress Dashboard =
