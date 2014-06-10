@@ -38,6 +38,15 @@ msgstr "Favicon actuel"
 msgid "The favicon is up and ready."
 msgstr "Le favicon est installé."
 
+#: admin/views/settings.php:25 admin/views/settings.php:46
+msgid ""
+"<a %s>Check your favicon</a> with RealFaviconGenerator's favicon checker."
+msgstr "<a %s>Vérifier le favicon</a> avec le testeur de favicon de RealFaviconGenerator."
+
+#: admin/views/settings.php:27 admin/views/settings.php:49
+msgid "This option works only if your site is accessible from the outside."
+msgstr "Cette option ne fonctionne que si le site est accessible depuis l'extérieur."
+
 #: admin/views/settings.php:30
 msgid "No favicon has been configured yet."
 msgstr "Aucun favicon n'a été configuré pour le moment."
@@ -95,6 +104,14 @@ msgstr "recommandé"
 #: admin/views/settings.php:87
 msgid "Generate favicon"
 msgstr "Générer le favicon"
+
+#: admin/views/settings.php:188
+msgid "An error occured"
+msgstr "Une erreur est survenue"
+
+#: admin/views/settings.php:199
+msgid "An internal error occurred"
+msgstr "Une erreur interne est survenue"
 
 #. Plugin Name of the plugin/theme
 msgid "Favicon by RealFaviconGenerator"
