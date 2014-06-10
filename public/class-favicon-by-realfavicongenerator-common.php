@@ -6,12 +6,14 @@ class Favicon_By_RealFaviconGenerator_Common {
 	const PLUGIN_PREFIX = 'fbrfg';
 
 	const OPTION_FAVICON_CONFIGURED = 'fbrfg_favicon_configured';
-	const OPTION_PREVIEW_FILE_NAME = 'fbrfg_preview_file_name';
-	const OPTION_HTML_CODE = 'fbrfg_html_code';
+	const OPTION_FAVICON_IN_ROOT    = 'fbrfg_favicon_in_root';
+	const OPTION_PREVIEW_FILE_NAME  = 'fbrfg_preview_file_name';
+	const OPTION_HTML_CODE          = 'fbrfg_html_code';
 
 	public static function get_options_list() {
 		return array(
 			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CONFIGURED, 
+			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT, 
 			Favicon_By_RealFaviconGenerator_Common::OPTION_PREVIEW_FILE_NAME,
 			Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE );
 	}
@@ -26,9 +28,19 @@ class Favicon_By_RealFaviconGenerator_Common {
 		return ( $opt == 1 );
 	}
 
-	public function set_favicon_configured( $configured = true ) {
+	/**
+	 * Indicate if the configured favicon is in the root directory of the web site.
+	 */
+	public function is_favicon_in_root() {
+		$opt = get_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT );
+		return ( $opt == 1 ) && $this->is_favicon_configured();
+	}
+
+	public function set_favicon_configured( $configured = true, $favicon_in_root = false ) {
 		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CONFIGURED,
 			$configured ? 1 : 0 );
+		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT,
+			$favicon_in_root ? 1 : 0 );
 	}
 
 	public function is_preview_available() {

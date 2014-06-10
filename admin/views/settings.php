@@ -20,6 +20,12 @@
 		<h3><?php _e( 'Current favicon', FBRFG_PLUGIN_SLUG ) ?></h3>
 		<p><?php _e( 'The favicon is up and ready.', FBRFG_PLUGIN_SLUG ) ?></p>
 		<img id="preview_image">
+
+		<p>
+			<?php printf( __( '<a %s>Check your favicon</a> with RealFaviconGenerator\'s favicon checker.', FBRFG_PLUGIN_SLUG ), 
+				'id="checker_link" class="button-primary" href="#"' ) ?>
+			<?php _e( 'This option works only if your site is accessible from the outside.', FBRFG_PLUGIN_SLUG ) ?>
+		</p>
 	</div>
 <?php } else { ?>
 	<h3><?php _e( 'Current favicon', FBRFG_PLUGIN_SLUG ) ?></h3>
@@ -35,7 +41,14 @@
 
 	<img src="<?php echo $preview_url ?>">
 
-<?php 		}
+<?php 		} ?>
+	<p>
+		<?php printf( __( '<a %s>Check your favicon</a> with RealFaviconGenerator\'s favicon checker.', FBRFG_PLUGIN_SLUG ),
+			'class="button-primary" ' .
+			'href="http://realfavicongenerator.net/favicon_checker?site=' . urlencode( home_url() ) . ($favicon_in_root ? '' : '&ignore_root_issues=on') . '"' ) ?>
+		<?php _e( 'This option works only if your site is accessible from the outside.', FBRFG_PLUGIN_SLUG ) ?>
+	</p>
+<?php
 		}
 	  } ?>
 
@@ -162,6 +175,9 @@
 			.done(function(response) {
 				if (response.status == 'success') {
 					jQuery('#preview_image').attr('src', response.preview_url);
+					var checkerUrl = "http://realfavicongenerator.net/favicon_checker?site=<?php echo urlencode( home_url() ) ?>" + 
+						(response.favicon_in_root ? '' : '&ignore_root_issues=on');
+					jQuery('#checker_link').attr('href', checkerUrl);
 					jQuery('#install_in_progress_message').fadeOut(function() {
 						jQuery('#install_completed_message').fadeIn();
 						jQuery('#install_completed_container').fadeIn();
@@ -169,7 +185,7 @@
 					});
 				}
 				else {
-					var msg = "An error occured";
+					var msg = "<?php _e( "An error occured", FBRFG_PLUGIN_SLUG ) ?>";
 					if (response.message != null) {
 						msg += ": " + response.message;
 					}
@@ -180,7 +196,7 @@
 				}
 			})
 			.fail(function() {
-				var msg = "An internal error occurred";
+				var msg = "<?php _e( "An internal error occurred", FBRFG_PLUGIN_SLUG ) ?>";
 				jQuery('#install_error_message p').html(msg);
 				jQuery('#install_in_progress_message').fadeOut(function() {
 					jQuery('#install_error_message').fadeIn();
