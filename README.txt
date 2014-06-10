@@ -66,6 +66,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 where you can design your favicon: adding a background to your iOS picture, using a saturated version of your master picture for Windows 8...
 4. When you are done with the favicon editor, you are redirected to the WordPress Dashboard. The favicon is installed automatically.
 This screen presents you a preview of the favicon you various platforms, so you know how your blog looks like on various platforms.
+5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
 
