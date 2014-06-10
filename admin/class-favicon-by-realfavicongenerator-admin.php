@@ -63,6 +63,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		$pic_path = $this->get_full_picture_path();
 
 		$favicon_configured = $this->is_favicon_configured();
+		$favicon_in_root = $this->is_favicon_in_root();
 
 		$preview_url = $this->is_preview_available() ? $this->get_preview_url() : NULL;
 
@@ -127,11 +128,12 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
 			
-			$this->set_favicon_configured();
+			$this->set_favicon_configured( true, $response->isFilesInRoot() );
 ?>
 {
 	"status": "success",
-	"preview_url": <?php echo json_encode( $this->get_preview_url() ) ?>
+	"preview_url": <?php echo json_encode( $this->get_preview_url() ) ?>,
+	"favicon_in_root": <?php echo json_encode( $this->is_favicon_in_root() ) ?>
 }
 <?php
 		}
