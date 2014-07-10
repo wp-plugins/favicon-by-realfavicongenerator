@@ -3,13 +3,15 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.0.7
+Stable tag: 1.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Create and install your favicon for all platforms: PC/Mac of course, but also iPhone/iPad, Android devices, Windows 8 tablets...
 
 == Description ==
+
+Generate and setup a favicon for desktop browsers, iPhone/iPad, Android devices, Windows 8 tablets and more. In a matter of seconds, design an icon that looks great on all major platforms.
 
 Favicon is not just a single `favicon.ico` file dropped in the middle of your site. Nowadays, with so many different platforms and devices, you need a bunch of pictures to get the job done. With RealFaviconGenerator, generate all the icons you need for desktop browsers, iPhone/iPad, Android devices, Windows 8 devices, and more.
 
@@ -64,8 +66,13 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 where you can design your favicon: adding a background to your iOS picture, using a saturated version of your master picture for Windows 8...
 4. When you are done with the favicon editor, you are redirected to the WordPress Dashboard. The favicon is installed automatically.
 This screen presents you a preview of the favicon you various platforms, so you know how your blog looks like on various platforms.
+5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.1.0 =
+
+- Run RealFaviconGenerator's favicon checker from the admin interface.
 
 = 1.0.7 =
 

@@ -13,6 +13,7 @@ define( 'RFG_FAVICON_PRODUCTION_PACKAGE_PATH',   'favicon_production_package_pat
 define( 'RFG_FAVICON_COMPRESSED_PACKAGE_PATH',   'favicon_compressed_package_path' );
 define( 'RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH', 'favicon_uncompressed_package_path' );
 define( 'RFG_PREVIEW_PATH',                      'preview_path' );
+define( 'RFG_VERSION',                           'version' );
 
 class Favicon_By_RealFaviconGenerator_Api_Response {
 	
@@ -51,6 +52,8 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		$this->params[RFG_PREVIEW_PICTURE_URL] = $this->getParam( $response, 'preview_picture_url', false );
 		
 		$this->params[RFG_CUSTOM_PARAMETER] = $this->getParam( $response, 'custom_parameter', false );
+
+		$this->params[RFG_VERSION] = $this->getParam( $response, 'version', false );
     }
 
 	/**
@@ -100,6 +103,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	 */
 	public function getCustomParameter() {
 		return $this->params[RFG_CUSTOM_PARAMETER];
+	}
+
+	/**
+	 * Return the version of RFG used during favicon generation.
+	 */
+	public function getVersion() {
+		return $this->params[RFG_VERSION];
 	}
 	
 	private function getParam( $params, $paramName, $throwIfNotFound = true ) {
