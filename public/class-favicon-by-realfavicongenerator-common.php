@@ -22,6 +22,8 @@ class Favicon_By_RealFaviconGenerator_Common {
 
 	const PLUGIN_SLUG = 'favicon-by-realfavicongenerator';
 
+	const ACTION_CHECK_FOR_UPDATE = 'fbrfg_check_for_updates';
+
 	/**
 	 * Indicate if a favicon was configured.
 	 */

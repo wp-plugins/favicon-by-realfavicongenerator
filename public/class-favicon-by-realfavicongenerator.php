@@ -13,6 +13,13 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 		// Deactivate Genesis default favicon
 		add_filter( 'genesis_pre_load_favicon', array( $this, 'return_empty_favicon_for_genesis' ) );
+
+		// Check for updates
+		add_action( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE, array( $this, 'check_for_updates' )  );
+	}
+
+	public function check_for_updates() {
+		// TODO: actually check for updates
 	}
 
 	public static function get_instance() {
@@ -86,7 +93,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 	}
 
 	private static function single_deactivate() {
-		// Nothing to do
+		wp_clear_scheduled_hook( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE );
 	}
 
 }
