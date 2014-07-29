@@ -284,10 +284,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	public function display_update_notice() {
 		if ( $this->is_update_available() ) {
 			echo '<div class="update-nag">';
-			echo __( 'An update is available on RealFaviconGenerator. You might want to generate your favicon again.', FBRFG_PLUGIN_SLUG )
-				. ' <a href="http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version() . '">' . 
-					__( 'Learn more', FBRFG_PLUGIN_SLUG ) . 
-				'</a>';
+			echo sprintf( __( '<a href="%s" target="_blank">An update is available</a> on RealFaviconGenerator. You might want to <a href="%s">generate your favicon again</a>.', FBRFG_PLUGIN_SLUG ),
+					'http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version(),
+					admin_url( 'themes.php?page=' . __FILE__ . 'favicon_settings_menu') );
 			echo '</div>';
 		}
 	}
