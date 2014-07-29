@@ -57,6 +57,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 		// Save the fact that we should update
 		error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
 		$this->set_update_available( true );
+		$this->set_latest_version_available( $latestVersion );
 	}
 
 	public static function get_instance() {

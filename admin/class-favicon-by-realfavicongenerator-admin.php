@@ -6,6 +6,8 @@ require_once plugin_dir_path( __FILE__ ) . 'class-favicon-by-realfavicongenerato
 
 class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenerator_Common {
 
+	const DISMISS_UPDATE_NOTIICATION = 'fbrfg_dismiss_update_notification';
+
 	protected static $instance = null;
 
 	private function __construct() {
@@ -28,7 +30,11 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			array( $this, 'install_new_favicon' ) );
 		add_action('wp_ajax_nopriv_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
 			array( $this, 'install_new_favicon' ) );
+
+		// Update notice
 		add_action('admin_notices', array( $this, 'display_update_notice' ) );
+		add_action('admin_init',    array( $this, 'process_ignored_notice' ) );
+
 
 		// Schedule update check
 		if ( ! wp_next_scheduled( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE ) ) {
@@ -282,13 +288,29 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	}
 
 	public function display_update_notice() {
-		if ( $this->is_update_available() ) {
+		global $current_user;
+		$user_id = $current_user->ID;
+
+		$user_dismiss = get_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_UPDATE_AVAILABLE . $this->get_latest_version_available(), true );
+
+		if ( $this->is_update_available() && ( ! $user_dismiss ) ) {
 			echo '<div class="update-nag">';
-			echo sprintf( __( '<a href="%s" target="_blank">An update is available</a> on RealFaviconGenerator. You might want to <a href="%s">generate your favicon again</a>.', FBRFG_PLUGIN_SLUG ),
+			printf( __( '<a href="%s" target="_blank">An update is available</a> on RealFaviconGenerator. You might want to <a href="%s">generate your favicon again</a>.', FBRFG_PLUGIN_SLUG ),
 					'http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version(),
 					admin_url( 'themes.php?page=' . __FILE__ . 'favicon_settings_menu') );
+			printf( __( ' | <a href="%s">Hide notice</a>', FBRFG_PLUGIN_SLUG), 
+				$this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION . '=0' ) );
 			echo '</div>';
 		}
+	}
+
+	public function process_ignored_notice() {
+	    global $current_user;
+        $user_id = $current_user->ID;
+
+        if ( isset( $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION]) && '0' == $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) {
+             add_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_UPDATE_AVAILABLE . $this->get_latest_version_available(), 'true', true );
+	    }
 	}
 }
 ?>

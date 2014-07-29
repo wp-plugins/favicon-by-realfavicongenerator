@@ -11,6 +11,9 @@ class Favicon_By_RealFaviconGenerator_Common {
 	const OPTION_HTML_CODE          = 'fbrfg_html_code';
 	const OPTION_FAVICON_VERSION    = 'fbrfg_favicon_version';
 	const OPTION_UPDATE_AVAILABLE   = 'fbrfg_update_available';
+	const OPTION_LATEST_VERSION     = 'fbrfg_latest_version';
+
+	const META_UPDATE_AVAILABLE = 'fbrfg_ignore_update_notice_';
 
 	public static function get_options_list() {
 		return array(
@@ -19,12 +22,22 @@ class Favicon_By_RealFaviconGenerator_Common {
 			Favicon_By_RealFaviconGenerator_Common::OPTION_PREVIEW_FILE_NAME,
 			Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE,
 			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_VERSION,
-			Favicon_By_RealFaviconGenerator_Common::OPTION_UPDATE_AVAILABLE );
+			Favicon_By_RealFaviconGenerator_Common::OPTION_UPDATE_AVAILABLE,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_LATEST_VERSION );
 	}
 
 	const PLUGIN_SLUG = 'favicon-by-realfavicongenerator';
 
 	const ACTION_CHECK_FOR_UPDATE = 'fbrfg_check_for_updates';
+
+	public function get_latest_version_available() {
+		return get_option( Favicon_By_RealFaviconGenerator_Common::OPTION_LATEST_VERSION );
+	}
+
+	public function set_latest_version_available( $version ) {
+		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_LATEST_VERSION,
+			$version );
+	}
 
 	/**
 	 * Indicate if a favicon was configured.
@@ -169,6 +182,31 @@ class Favicon_By_RealFaviconGenerator_Common {
 
 	}
 
+	// See http://webcheatsheet.com/php/get_current_page_url.php
+	public function current_page_url() {
+		$pageURL = 'http';
+		if ( $_SERVER["HTTPS"] == "on" ) {
+			$pageURL .= "s";
+		}
+		$pageURL .= "://";
+		if ( $_SERVER["SERVER_PORT"] != "80" ) {
+			$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+		}
+		else {
+			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+		}
+		return $pageURL;
+	}
+
+	public function add_parameter_to_current_url( $param_and_value ) {
+		$url = $this->current_page_url();
+		if ( strpos( $url, '?') !== false) {
+			return $url . '&' . $param_and_value;
+		}
+		else {
+			return $url . '?' . $param_and_value;
+		}
+	}
 }
 
 // Shortcut
