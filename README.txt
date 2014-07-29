@@ -3,7 +3,7 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ This screen presents you a preview of the favicon you various platforms, so you 
 
 == Changelog ==
 
+= 1.2.0 =
+
+- The plugin now warns the user when RealFaviconGenerator was updated and the favicon should be generated again.
+
 = 1.1.1 =
 
 - Rewrite API usage disabled. Favicon files do not appear to be in the root directory of the blog anymore.
@@ -109,4 +113,5 @@ This screen presents you a preview of the favicon you various platforms, so you 
 - Fix in error management during favicon installation. 
 
 = 1.0 =
+
 Initial version.
