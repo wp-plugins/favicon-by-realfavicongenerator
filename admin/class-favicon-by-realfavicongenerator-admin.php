@@ -28,6 +28,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			array( $this, 'install_new_favicon' ) );
 		add_action('wp_ajax_nopriv_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
 			array( $this, 'install_new_favicon' ) );
+		add_action('admin_notices', array( $this, 'display_update_notice' ) );
 
 		// Schedule update check
 		if ( ! wp_next_scheduled( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE ) ) {
@@ -278,6 +279,17 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	public function wp_in_root() {
 		$path = parse_url( home_url(), PHP_URL_PATH );
 		return ( ($path == NULL) || (strlen( $path ) == 0) );
+	}
+
+	public function display_update_notice() {
+		if ( $this->is_update_available() ) {
+			echo '<div class="update-nag">';
+			echo __( 'An update is available on RealFaviconGenerator. You might want to generate your favicon again.', FBRFG_PLUGIN_SLUG )
+				. ' <a href="http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version() . '">' . 
+					__( 'Learn more', FBRFG_PLUGIN_SLUG ) . 
+				'</a>';
+			echo '</div>';
+		}
 	}
 }
 ?>
