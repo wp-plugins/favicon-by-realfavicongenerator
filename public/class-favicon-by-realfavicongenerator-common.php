@@ -9,6 +9,7 @@ class Favicon_By_RealFaviconGenerator_Common {
 	const OPTION_FAVICON_IN_ROOT    = 'fbrfg_favicon_in_root';
 	const OPTION_PREVIEW_FILE_NAME  = 'fbrfg_preview_file_name';
 	const OPTION_HTML_CODE          = 'fbrfg_html_code';
+	const OPTION_FAVICON_VERSION    = 'fbrfg_favicon_version';
 	const OPTION_UPDATE_AVAILABLE   = 'fbrfg_update_available';
 	const OPTION_LATEST_VERSION     = 'fbrfg_latest_version';
 
@@ -82,6 +83,11 @@ class Favicon_By_RealFaviconGenerator_Common {
 			$configured ? 1 : 0 );
 		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT,
 			$favicon_in_root ? 1 : 0 );
+
+		if ( $version != NULL ) {
+			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_VERSION,
+				$version );
+		}
 
 		// We've just configured a favicon with the latest version of RFG so...
 		$this->set_update_available( false );
