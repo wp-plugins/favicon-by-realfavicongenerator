@@ -140,7 +140,7 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 			if ($r === TRUE) {
 				$extractedPath = $outputDirectory . DIRECTORY_SEPARATOR . 'favicon_package';
 				if ( ! file_exists( $extractedPath ) ) {
-					mkdir( $extractedPath );
+					mkdir( $extractedPath, 0755 );
 				}
 				
 				$zip->extractTo( $extractedPath );

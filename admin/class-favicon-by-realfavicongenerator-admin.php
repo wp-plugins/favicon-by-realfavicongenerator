@@ -128,7 +128,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 			$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
 			if ( ! file_exists( $zip_path ) ) {
-				mkdir( $zip_path, 0777, true );
+				mkdir( $zip_path, 0755, true );
 			}
 			$response->downloadAndUnpack( $zip_path );
 
@@ -217,7 +217,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		}
 
 		if ( ! file_exists( dirname( $this->get_preview_path( $preview_file_name ) ) ) ) {
-			mkdir( dirname( $this->get_preview_path( $preview_file_name ) ) );
+			mkdir( dirname( $this->get_preview_path( $preview_file_name ) ), 0755 );
 		}
 
 		rename( $preview_path, $this->get_preview_path( $preview_file_name ) );
