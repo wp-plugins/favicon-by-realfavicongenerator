@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"Project-Id-Version: Favicon by RealFaviconGenerator\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Techload <contato@techload.com.br>\n"
+"Language-Team: Techload\n"
+"X-Poedit-KeywordsList: _;__e\n"
+"X-Poedit-Basepath: .\n"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:63
+msgid "Favicon Settings"
+msgstr "Configurações do Favicon"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:64
+msgid "Favicon"
+msgstr "Favicon"
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:298
+msgid ""
+"<a href=\"%s\" target=\"_blank\">An update is available</a> on "
+"RealFaviconGenerator. You might want to <a href=\"%s\">generate your favicon "
+"again</a>."
+msgstr ""
+"<a href=\"%s\" target=\"_blank\">Uma atualização está disponível</a> em "
+"RealFaviconGenerator. Você pode querer <a href=\"%s\">gerar seu favicon "
+"novamente</a>."
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:301
+msgid " | <a href=\"%s\">Hide notice</a>"
+msgstr " | <a href=\"%s\">Ocultar avisos</a>"
+
+#: admin/views/settings.php:11
+msgid "Favicon installation in progress. Please wait..."
+msgstr "Instalação do Favicon em andamento. Por favor, aguarde..."
+
+#: admin/views/settings.php:15
+msgid "Favicon installed!"
+msgstr "Favicon instalado!"
+
+#: admin/views/settings.php:20 admin/views/settings.php:31
+msgid "Current favicon"
+msgstr "Favicon atual"
+
+#: admin/views/settings.php:21 admin/views/settings.php:34
+msgid "The favicon is up and ready."
+msgstr "O favicon está pronto."
+
+#: admin/views/settings.php:25 admin/views/settings.php:46
+msgid ""
+"<a %s>Check your favicon</a> with RealFaviconGenerator's favicon checker."
+msgstr ""
+"<a %s>Verifique o seu favicon</a> com o verificador de favicon do "
+"RealFaviconGenerator."
+
+#: admin/views/settings.php:27 admin/views/settings.php:49
+msgid "This option works only if your site is accessible from the outside."
+msgstr "Esta opção só funciona se o site está acessível publicamente."
+
+#: admin/views/settings.php:36
+msgid "No favicon has been configured yet."
+msgstr "Nenhum favicon foi configurado ainda."
+
+#: admin/views/settings.php:56
+msgid "Favicon generation"
+msgstr "Geração do Favicon"
+
+#: admin/views/settings.php:58
+msgid "You can replace the existing favicon."
+msgstr "Você pode substituir o favicon existente."
+
+#: admin/views/settings.php:65
+msgid "Master picture URL"
+msgstr "URL da imagem"
+
+#: admin/views/settings.php:69 admin/views/settings.php:70
+msgid "Select from the Media Library"
+msgstr "Selecione a partir da Biblioteca de Mídia"
+
+#: admin/views/settings.php:73
+msgid "Submit a square picture, at least 70x70 (recommended: 260x260 or more)"
+msgstr ""
+"Enviar uma imagem quadrada, pelo menos 70x70 (recomendado: 260x260 ou mais)"
+
+#: admin/views/settings.php:75
+msgid ""
+"If the picture is on your hard drive, you can leave this field blank and "
+"upload the picture from RealFaviconGenerator."
+msgstr ""
+"Se a imagem estiver em seu disco rígido, você pode deixar este campo em "
+"branco e fazer o upload da imagem a partir do RealFaviconGenerator."
+
+#: admin/views/settings.php:83
+msgid "Favicon files in root directory"
+msgstr "Arquivos do favicon no diretório raiz"
+
+#: admin/views/settings.php:88
+msgid "The plugin always stores the favicon files in a dedicated directory."
+msgstr ""
+"O plugin sempre armazena os arquivos favicon em um diretório específico."
+
+#: admin/views/settings.php:90
+msgid ""
+"However, if this option is enabled, the plugin takes advantage of the "
+"permalink feature and the favicon files appear to be in the root directory"
+msgstr ""
+"No entanto, se esta opção estiver habilitada, o plugin aproveita os recursos "
+"do permalink e os arquivos favicon parecem estar no diretório raiz"
+
+#: admin/views/settings.php:91
+msgid "recommended"
+msgstr "recomendado"
+
+#: admin/views/settings.php:100
+msgid "Generate favicon"
+msgstr "Gerar o favicon"
+
+#: admin/views/settings.php:188
+msgid "An error occured"
+msgstr "Ocorreu um erro"
+
+#: admin/views/settings.php:199
+msgid "An internal error occurred"
+msgstr "Ocorreu um erro interno"
+
+#. Plugin Name of the plugin/theme
+msgid "Favicon by RealFaviconGenerator"
+msgstr "Favicon por RealFaviconGenerator"
+
+#. Plugin URI of the plugin/theme
+msgid "http://realfavicongenerator.net/extensions/wordpress"
+msgstr "http://realfavicongenerator.net/extensions/wordpress"
+
+#. Description of the plugin/theme
+msgid ""
+"Create and install your favicon for all platforms: PC/Mac of course, but "
+"also iPhone/iPad, Android devices, Windows 8 tablets, etc."
+msgstr ""
+"Crie e instale o seu favicon para todas as plataformas: PC/Mac, é claro, mas "
+"também para o iPhone/iPad, dispositivos Android, tablets com Windows 8, etc."
+
+#. Author of the plugin/theme
+msgid "Philippe Bernard"
+msgstr "Philippe Bernard"
+
+#. Author URI of the plugin/theme
+msgid "http://realfavicongenerator.net/"
+msgstr "http://realfavicongenerator.net/"

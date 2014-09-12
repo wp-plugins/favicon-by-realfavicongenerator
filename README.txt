@@ -35,6 +35,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 * English (`en_EN`) by [Philippe Bernard](http://realfavicongenerator.net/)
 * French (`fr_FR`) by [Philippe Bernard](http://realfavicongenerator.net/)
 * Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
+* Brazilian Portuguese (`pt_BR`) by Marcelo Volgarini, [Criação de Sites](http://www.techload.com.br/criacao-de-sites-ribeirao-preto)
 
 == Installation ==
 
