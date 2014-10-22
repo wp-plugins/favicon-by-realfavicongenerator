@@ -13,7 +13,8 @@ class Favicon_By_RealFaviconGenerator_Common {
 	const OPTION_UPDATE_AVAILABLE   = 'fbrfg_update_available';
 	const OPTION_LATEST_VERSION     = 'fbrfg_latest_version';
 
-	const META_UPDATE_AVAILABLE = 'fbrfg_ignore_update_notice_';
+	const META_NO_UPDATE_NOTICE_FOR_VERSION = 'fbrfg_ignore_update_notice_';
+	const META_NO_UPDATE_NOTICE = 'fbrfg_no_update_notice';
 
 	public static function get_options_list() {
 		return array(
