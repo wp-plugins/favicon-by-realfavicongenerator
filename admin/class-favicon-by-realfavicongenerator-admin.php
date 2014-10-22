@@ -8,6 +8,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 	const DISMISS_UPDATE_NOTIICATION = 'fbrfg_dismiss_update_notification';
 	const DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS = 'fbrfg_dismiss_all_update_notifications';
+	const SETTINGS_FORM = 'fbrfg_settings_form';
 
 	protected static $instance = null;
 
@@ -61,12 +62,31 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	}
 
 	public function create_favicon_settings_menu() {
-		add_theme_page( __( 'Favicon Settings', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), 
+		add_theme_page( __( 'Favicon', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), 
+			__( 'Favicon', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), 'manage_options', __FILE__ . 'favicon_appearance_menu', 
+			array( $this, 'create_favicon_appearance_page' ) );
+
+		add_options_page( __( 'Favicon Settings', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), 
 			__( 'Favicon', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), 'manage_options', __FILE__ . 'favicon_settings_menu', 
 			array( $this, 'create_favicon_settings_page' ) );
 	}
 
 	public function create_favicon_settings_page() {
+		global $current_user;
+
+		$user_id = $current_user->ID;
+
+		// Prepare variables
+		$favicon_appearance_url = admin_url( 'themes.php?page=' . __FILE__ . 'favicon_appearance_menu' );
+		$favicon_admin_url = admin_url( 'options-general.php?page=' . __FILE__ . 'favicon_settings_menu' );
+		$display_update_notifications = ! $this->get_boolean_user_option(
+			Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE );
+
+		// Template time!
+		include_once( plugin_dir_path(__FILE__) . 'views/settings.php' );		
+	}
+
+	public function create_favicon_appearance_page() {
 		$result = NULL;
 
 		// Prepare settings page
@@ -99,7 +119,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		wp_enqueue_style( 'fbrfg_admin_style', plugins_url( 'assets/css/admin.css', __FILE__ ) );
 
 		// Template time!
-		include_once( plugin_dir_path(__FILE__) . 'views/settings.php' );
+		include_once( plugin_dir_path(__FILE__) . 'views/appearance.php' );
 	}
 
 	private function download_result_json( $url ) {
@@ -292,23 +312,33 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		return ( ($path == NULL) || (strlen( $path ) == 0) );
 	}
 
-	public function is_update_notice_to_be_displayed() {
+	public function set_boolean_user_option( $option_name, $option_value ) {
 		global $current_user;
+		$user_id = $current_user->ID;
 
+		update_user_option( $user_id, $option_name, $option_value );
+	}
+
+	public function get_boolean_user_option( $option_name ) {
+		global $current_user;
+		$user_id = $current_user->ID;
+
+		return get_user_option( $option_name );
+	}
+
+	public function is_update_notice_to_be_displayed() {
 		// No update? No notice
 		if ( ! $this->is_update_available() ) {
 			return false;
 		}
 
-		$user_id = $current_user->ID;
-
 		// Did the user prevent all notices?
-		if ( get_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available(), true ) ) {
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available() ) ) {
 			return false;
 		}
 
 		// Did the user prevent the notice for this particular version?
-		if ( get_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE, true ) ) {
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE ) ) {
 			return false;
 		}
 
@@ -320,7 +350,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			echo '<div class="update-nag">';
 			printf( __( '<a href="%s" target="_blank">An update is available</a> on RealFaviconGenerator. You might want to <a href="%s">generate your favicon again</a>.', FBRFG_PLUGIN_SLUG ),
 					'http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version(),
-					admin_url( 'themes.php?page=' . __FILE__ . 'favicon_settings_menu') );
+					admin_url( 'themes.php?page=' . __FILE__ . 'favicon_appearance_menu') );
 			printf( __( ' | <a href="%s">Hide this notice</a>', FBRFG_PLUGIN_SLUG), 
 				$this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION . '=0' ) );
 			printf( __( ' | <a href="%s">Do not warn me again in case of update</a>', FBRFG_PLUGIN_SLUG), 
@@ -333,15 +363,26 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	    global $current_user;
         $user_id = $current_user->ID;
 
-        if ( isset( $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION]) && 
-        		'0' == $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) {
-             add_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available(), 'true', true );
+        if ( isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) && 
+        		'0' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) {
+             $this->set_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available(), true );
 	    }
 
-        if ( isset( $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS]) && 
-        		'0' == $_GET[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS] ) {
-             add_user_meta( $user_id, Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE, 'true', true );
+	    $no_notices = NULL;
+        if ( ( isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS] ) && 
+        		'0' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS] ) ) {
+        	// The "no more notifications" link was clicked in the notification itself
+		    $no_notices = true;
+        }
+        if ( isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::SETTINGS_FORM] ) && 
+        		'1' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::SETTINGS_FORM] ) {
+        	// The settings form was validated
+        	$no_notices = ( ! isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS] ) || 
+        		( '0' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS] ) );
 	    }
+		if ( $no_notices !== NULL ) {
+			$this->set_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE, $no_notices );
+		}
 	}
 }
 ?>
