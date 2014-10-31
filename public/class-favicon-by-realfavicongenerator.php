@@ -21,7 +21,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 	public function check_for_updates() {
 		if ( ! $this->is_favicon_configured() ) {
 			// No favicon so nothing to update
-			error_log("RFG update checking: no favicon configured");
+			//error_log("RFG update checking: no favicon configured");
 			return;
 		}
 
@@ -29,7 +29,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 		if ( $version == NULL ) {
 			// No version for some reason. Let's leave.
-			error_log("RFG update checking: current version not available");
+			//error_log("RFG update checking: current version not available");
 			return;
 		}
 
@@ -38,14 +38,14 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 		if ( ( $resp == NULL ) || ( $resp == false ) || ( is_wp_error( $resp ) )  || 
 			 ( $resp['response'] == NULL ) || ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
 			// Error of some kind? Return
-			error_log("RFG update checking: cannot get latest version from RealFaviconGenerator" . 
-				( is_wp_error( $resp ) ? ': ' . $resp->get_error_message() : '' ) . ' (URL was ' . $checkUrl . ')' );
+			//error_log("RFG update checking: cannot get latest version from RealFaviconGenerator" . 
+			//	( is_wp_error( $resp ) ? ': ' . $resp->get_error_message() : '' ) . ' (URL was ' . $checkUrl . ')' );
 			return;
 		}
 
 		$json = json_decode( $resp['body'], true );
 		if ( empty( $json ) ) {
-			error_log('RFG update checking: No change since version ' . $version . ' or cannot parse JSON (JSON parsing error code is ' . json_last_error() . ')' );
+			//error_log('RFG update checking: No change since version ' . $version . ' or cannot parse JSON (JSON parsing error code is ' . json_last_error() . ')' );
 			return;
 		}
 
@@ -55,7 +55,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 		$latestVersion = $last['version'];
 
 		// Save the fact that we should update
-		error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
+		//error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
 		$this->set_update_available( true );
 		$this->set_latest_version_available( $latestVersion );
 	}
