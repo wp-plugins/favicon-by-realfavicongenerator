@@ -9,7 +9,9 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 	private function __construct() {
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
 		add_action( 'wp_head', array( $this, 'add_favicon_markups' ) );
+		add_action( 'login_head', array( $this, 'add_favicon_markups' ) );
 
 		// Deactivate Genesis default favicon
 		add_filter( 'genesis_pre_load_favicon', array( $this, 'return_empty_favicon_for_genesis' ) );
