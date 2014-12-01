@@ -211,7 +211,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		if ( ! $preview_file_name ) {
 			$preview_file_name = $this->get_preview_file_name();
 		}
-		return $this->get_picture_dir() . 'preview' . DIRECTORY_SEPARATOR . $preview_file_name;
+		return $this->get_picture_dir() . 'preview/' . $preview_file_name;
 	}
 
 	public function get_preview_url( $preview_file_name = NULL ) {
@@ -256,7 +256,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			    unlink( $file );
 			}
 		}
-		$files = glob( $rfg_response->getProductionPackagePath() . DIRECTORY_SEPARATOR . '*' );
+		$files = glob( $rfg_response->getProductionPackagePath() . '/*' );
 		foreach( $files as $file ) {
 			if ( is_file( $file ) ) {
 			    rename( $file, $working_dir . basename( $file ) );
@@ -271,7 +271,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 	public function rewrite_pictures_url( $pic_dir ) {
 		foreach ( scandir($pic_dir) as $file ) {
-			if ( ! is_dir( $pic_dir . DIRECTORY_SEPARATOR . $file ) ) {
+			if ( ! is_dir( $pic_dir . '/' . $file ) ) {
 				add_rewrite_rule( str_replace( '.', '\.', $file ), 
 					trim( $this->get_picture_path(), '/') . '/' . $file );
 			}
@@ -296,7 +296,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 //		}
 
 		// See http://wordpress.org/support/topic/fbrfg-not-updating-htaccess-rewrite-rules
-//		$htaccess = get_home_path() . DIRECTORY_SEPARATOR . '.htaccess';
+//		$htaccess = get_home_path() . '/.htaccess';
 		// Two cases:
 		//   - There is no .htaccess. Either we are not using Apache (so the Rewrite API is supposed to handle
 		//     the rewriting differently) or there is a problem with Apache/WordPress config, but this is not our job.

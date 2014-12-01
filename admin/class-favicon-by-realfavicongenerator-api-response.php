@@ -132,13 +132,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		}
 		
 		if ( $this->getPackageUrl() != NULL ) {
-			$packagePath = $outputDirectory . DIRECTORY_SEPARATOR . 'favicon_package.zip';
+			$packagePath = $outputDirectory . '/favicon_package.zip';
 			$this->downloadFile( $packagePath, $this->getPackageUrl() );
 			
 			$zip = new ZipArchive();
 			$r = $zip->open( $packagePath );
 			if ($r === TRUE) {
-				$extractedPath = $outputDirectory . DIRECTORY_SEPARATOR . 'favicon_package';
+				$extractedPath = $outputDirectory . '/favicon_package';
 				if ( ! file_exists( $extractedPath ) ) {
 					mkdir( $extractedPath, 0755 );
 				}
@@ -151,14 +151,14 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 					// the package is provided in two flavors, in two distinct directories.
 					// Later, only the compressed version will be provided. Thus, the following code
 					// handles both scenarios.
-					if ( is_dir( $extractedPath . DIRECTORY_SEPARATOR . 'compressed' ) ) {
-						$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . DIRECTORY_SEPARATOR . 'compressed';
+					if ( is_dir( $extractedPath . '/compressed' ) ) {
+						$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . '/compressed';
 					} else {
 						$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
 					}
 
-					if ( is_dir( $extractedPath . DIRECTORY_SEPARATOR . 'uncompressed' ) ) {
-						$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . DIRECTORY_SEPARATOR . 'uncompressed';
+					if ( is_dir( $extractedPath . '/uncompressed' ) ) {
+						$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . '/uncompressed';
 					} else {
 						$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
 					}
@@ -177,7 +177,7 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		}
 		
 		if ( $this->getPreviewUrl() != NULL ) {
-			$previewPath = $outputDirectory . DIRECTORY_SEPARATOR . 'favicon_preview.png';
+			$previewPath = $outputDirectory . '/favicon_preview.png';
 			$this->downloadFile( $previewPath, $this->getPreviewUrl() );
 			$this->params[RFG_PREVIEW_PATH] = $previewPath;
 		}

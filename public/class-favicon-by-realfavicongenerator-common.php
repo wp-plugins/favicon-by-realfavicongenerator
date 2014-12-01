@@ -143,7 +143,7 @@ class Favicon_By_RealFaviconGenerator_Common {
 	 */
 	public static function get_files_dir() {
 		$up_dir = wp_upload_dir();
-		return $up_dir['basedir'] . DIRECTORY_SEPARATOR . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . DIRECTORY_SEPARATOR;
+		return $up_dir['basedir'] . '/' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '/';
 	}
 
 	/**
@@ -151,22 +151,22 @@ class Favicon_By_RealFaviconGenerator_Common {
 	 */
 	public static function get_files_url() {
 		$up_dir = wp_upload_dir();
-		return $up_dir['baseurl'] . DIRECTORY_SEPARATOR . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . DIRECTORY_SEPARATOR;
+		return $up_dir['baseurl'] . '/' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '/';
 	}
 
 	public static function get_tmp_dir() {
-		return Favicon_By_RealFaviconGenerator_Common::get_files_dir() . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
+		return Favicon_By_RealFaviconGenerator_Common::get_files_dir() . '/tmp/';
 	}
 
 	public static function remove_directory($directory) {
 		foreach( scandir( $directory ) as $v ) {
-			if ( is_dir( $directory . DIRECTORY_SEPARATOR . $v ) ) {
+			if ( is_dir( $directory . '/' . $v ) ) {
 				if ( $v != '.' && $v != '..' ) {
-					Favicon_By_RealFaviconGenerator_Common::remove_directory( $directory . DIRECTORY_SEPARATOR . $v );
+					Favicon_By_RealFaviconGenerator_Common::remove_directory( $directory . '/' . $v );
 				}
 			}
 			else {
-				unlink( $directory . DIRECTORY_SEPARATOR . $v );
+				unlink( $directory . '/' . $v );
 			}
 		}
 		rmdir( $directory );
