@@ -2,8 +2,8 @@
 Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 1.2.7
+Tested up to: 4.1
+Stable tag: 1.2.8
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,7 +71,11 @@ This screen presents you a preview of the favicon you various platforms, so you 
 
 == Changelog ==
 
-= 1.2.6 =
+= 1.2.8 =
+
+- Plugin successfully tested against WordPress 4.1.
+
+= 1.2.7 =
 
 - Fix for WordPress sites hosted on Windows.
 
