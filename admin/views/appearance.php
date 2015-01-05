@@ -106,21 +106,32 @@
 <script type="text/javascript">
 	var picData = null;
 	
+	function urlToBase64(url, callback) {
+		var img = new Image();
+		img.onload = function() {
+			callback(getBase64Image(img));
+		}
+		img.onerror = function() {
+			callback(null);
+		}
+		img.src = url;
+	}
+
 	// See http://stackoverflow.com/questions/934012/get-image-data-in-javascript
 	// Credits: Matthew Crumley
 	function getBase64Image(img) {
 		var canvas = document.createElement("canvas");
 		canvas.width = img.width;
 		canvas.height = img.height;
-		
+
 		var ctx = canvas.getContext("2d");
 		ctx.drawImage(img, 0, 0);
-	
+
 		var dataURL = canvas.toDataURL("image/png");
-			
+
 		return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 	}
-	
+
 	function computeJson() {
 		var params = { favicon_generation: { 
 			callback: {},
@@ -132,6 +143,10 @@
 		if (jQuery('#master_picture_url').val().length <= 0) {
 			params.favicon_generation.master_picture.type = "no_picture";
 			params.favicon_generation.master_picture.demo = true;
+		}
+		else if (pictureContent != null) {
+			params.favicon_generation.master_picture.type = "inline";
+			params.favicon_generation.master_picture.content = pictureContent;
 		}
 		else {
 			params.favicon_generation.master_picture.type = "url";
@@ -157,6 +172,27 @@
 		params.favicon_generation.callback.path_only = 'true';
 
 		return params;
+	}
+
+	var pictureContent = null;
+
+	function prepareInlinePicture(pictureUrl) {
+		jQuery('#generate_favicon_button').attr('disabled', 'disabled');
+		jQuery('#generate_favicon_button').val("<?php _e( 'Preparing master picture...', FBRFG_PLUGIN_SLUG ) ?>");
+
+		pictureContent = null;
+
+		urlToBase64(pictureUrl, function(content) {
+			if (content != null) {
+				pictureContent = content;
+			}
+			restoreGenerateFaviconButton();
+		});
+	}
+
+	function restoreGenerateFaviconButton() {
+		jQuery('#generate_favicon_button').removeAttr('disabled');
+		jQuery('#generate_favicon_button').val("<?php _e( 'Generate favicon', FBRFG_PLUGIN_SLUG ) ?>");
 	}
 
 <?php if ( $new_favicon_params_url ) { ?>
@@ -227,10 +263,17 @@
 			fileFrame.on('select', function() {
 				attachment = fileFrame.state().get('selection').first().toJSON();
 				jQuery('#master_picture_url').val(attachment.url);
+				prepareInlinePicture(attachment.url);
 			});
 		 
 			fileFrame.open();
 		});
 
+
+		jQuery('#master_picture_url').change(function() {
+			// Whatever the previous content of the field, forget its cached data
+			pictureContent = null;
+			restoreGenerateFaviconButton();
+		});
 	});
 </script>
