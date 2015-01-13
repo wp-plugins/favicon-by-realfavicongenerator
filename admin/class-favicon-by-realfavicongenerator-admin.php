@@ -19,29 +19,12 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		// Deactivate Genesis default favicon
 		add_filter( 'genesis_pre_load_favicon', array( $this, 'return_empty_favicon_for_genesis' ) );
-		
-		// Except for the headers, everything is accessible only to the admin
-		if ( ! is_super_admin() ) {
-			return;
-		}
 
-		add_action( 'admin_menu',
-			array( $this, 'create_favicon_settings_menu' ) );
-
-		add_action('wp_ajax_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
-			array( $this, 'install_new_favicon' ) );
-		add_action('wp_ajax_nopriv_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
-			array( $this, 'install_new_favicon' ) );
-
-		// Update notice
-		add_action('admin_notices', array( $this, 'display_update_notice' ) );
-		add_action('admin_init',    array( $this, 'process_ignored_notice' ) );
-
-
-		// Schedule update check
-		if ( ! wp_next_scheduled( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE ) ) {
-			wp_schedule_event( time(), 'daily', Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE );
-		}
+		// See
+		// - https://wordpress.org/support/topic/wp_debug-notice-for-bp_setup_current_user
+		// - https://buddypress.org/support/topic/wp_debug-notice-for-bp_setup_current_user
+		// The idea: is_super_admin must not be called too soon.
+		add_action( 'init', array( $this, 'register_admin_actions' ) );
 	}
 
 	/**
@@ -59,6 +42,30 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		}
 
 		return self::$instance;
+	}
+
+	public function register_admin_actions() {
+		// Except for the headers, everything is accessible only to the admin
+		if ( ! is_super_admin() ) {
+			return;
+		}
+
+		add_action( 'admin_menu',
+			array( $this, 'create_favicon_settings_menu' ) );
+
+		add_action('wp_ajax_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
+			array( $this, 'install_new_favicon' ) );
+		add_action('wp_ajax_nopriv_' . Favicon_By_RealFaviconGenerator_Common::PLUGIN_PREFIX . '_install_new_favicon',
+			array( $this, 'install_new_favicon' ) );
+
+		// Update notice
+		add_action('admin_notices', array( $this, 'display_update_notice' ) );
+		add_action('admin_init',    array( $this, 'process_ignored_notice' ) );
+
+		// Schedule update check
+		if ( ! wp_next_scheduled( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE ) ) {
+			wp_schedule_event( time(), 'daily', Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE );
+		}
 	}
 
 	public function create_favicon_settings_menu() {
