@@ -2,8 +2,8 @@
 Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
-Tested up to: 4.1
-Stable tag: 1.2.10
+Tested up to: 4.1.1
+Stable tag: 1.2.11
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,12 @@ This screen presents you a preview of the favicon you various platforms, so you 
 5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.2.11 =
+
+- When the admin's browser cannot get the picture selected from the Media Library, the UI fails gracefully.
+- Favicon package unzipping is more robust.
+- Notice to ask users to rank the plugin on WordPress.org.
 
 = 1.2.10 =
 

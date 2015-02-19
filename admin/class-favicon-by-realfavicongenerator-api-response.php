@@ -128,51 +128,44 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	 */
 	public function downloadAndUnpack( $outputDirectory = NULL ) {
 		if ( $outputDirectory == NULL ) {
-			$outputDirectory = sys_get_temp_dir();
+			$outputDirectory = get_temp_dir();
 		}
 		
 		if ( $this->getPackageUrl() != NULL ) {
 			$packagePath = $outputDirectory . '/favicon_package.zip';
 			$this->downloadFile( $packagePath, $this->getPackageUrl() );
+
+			$extractedPath = $outputDirectory . '/favicon_package';
+			if ( ! file_exists( $extractedPath ) ) {
+				mkdir( $extractedPath, 0755, true );
+			}
 			
-			$zip = new ZipArchive();
-			$r = $zip->open( $packagePath );
-			if ($r === TRUE) {
-				$extractedPath = $outputDirectory . '/favicon_package';
-				if ( ! file_exists( $extractedPath ) ) {
-					mkdir( $extractedPath, 0755 );
+			WP_Filesystem();
+			unzip_file( $packagePath, $extractedPath );
+			
+			if ( $this->isCompressed() ) {
+				// As of today, when the user chooses the compress the picture, 
+				// the package is provided in two flavors, in two distinct directories.
+				// Later, only the compressed version will be provided. Thus, the following code
+				// handles both scenarios.
+				if ( is_dir( $extractedPath . '/compressed' ) ) {
+					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . '/compressed';
+				} else {
+					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
 				}
-				
-				$zip->extractTo( $extractedPath );
-				$zip->close();
-				
-				if ( $this->isCompressed() ) {
-					// As of today, when the user chooses the compress the picture, 
-					// the package is provided in two flavors, in two distinct directories.
-					// Later, only the compressed version will be provided. Thus, the following code
-					// handles both scenarios.
-					if ( is_dir( $extractedPath . '/compressed' ) ) {
-						$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . '/compressed';
-					} else {
-						$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
-					}
 
-					if ( is_dir( $extractedPath . '/uncompressed' ) ) {
-						$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . '/uncompressed';
-					} else {
-						$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-					}
-
-					$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
-				}
-				else {
-					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
+				if ( is_dir( $extractedPath . '/uncompressed' ) ) {
+					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . '/uncompressed';
+				} else {
 					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-					$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
 				}
+
+				$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
 			}
 			else {
-				throw new InvalidArgumentException( 'Cannot open package. Invalid Zip file?!' );
+				$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
+				$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
+				$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
 			}
 		}
 		

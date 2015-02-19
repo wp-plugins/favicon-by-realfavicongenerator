@@ -12,7 +12,13 @@
 	</div>
 
 	<div id="install_completed_message" class="updated" style="display:none">
-		<p><?php _e( 'Favicon installed!', FBRFG_PLUGIN_SLUG ) ?></p>
+		<p>
+			<?php _e( 'Favicon installed!', FBRFG_PLUGIN_SLUG ) ?>
+			<span id="rank_notice" style="display:none">
+				<?php printf( __( 'Do you like the result? If so, would you like to <a %s>rate the plugin</a>?', FBRFG_PLUGIN_SLUG ), 
+					'target="_blank" href="https://wordpress.org/support/view/plugin-reviews/favicon-by-realfavicongenerator"' ) ?>
+			</span>
+		</p>
 	</div>
 	<div id="install_error_message" class="error" style="display:none"><p></p></div>
 
@@ -120,16 +126,22 @@
 	// See http://stackoverflow.com/questions/934012/get-image-data-in-javascript
 	// Credits: Matthew Crumley
 	function getBase64Image(img) {
-		var canvas = document.createElement("canvas");
-		canvas.width = img.width;
-		canvas.height = img.height;
+		try {
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
 
-		var ctx = canvas.getContext("2d");
-		ctx.drawImage(img, 0, 0);
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
 
-		var dataURL = canvas.toDataURL("image/png");
+			var dataURL = canvas.toDataURL("image/png");
 
-		return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		}
+		catch(err) {
+			console.log("Cannot get the picture from the Media Library: " + err);
+			return null;
+		}
 	}
 
 	function computeJson() {
@@ -175,8 +187,12 @@
 	}
 
 	var pictureContent = null;
+	var pictureContentTimestamp = null;
 
 	function prepareInlinePicture(pictureUrl) {
+		var timestamp = new Date().getTime();
+		pictureContentTimestamp	= timestamp;
+
 		jQuery('#generate_favicon_button').attr('disabled', 'disabled');
 		jQuery('#generate_favicon_button').val("<?php _e( 'Preparing master picture...', FBRFG_PLUGIN_SLUG ) ?>");
 
@@ -188,6 +204,12 @@
 			}
 			restoreGenerateFaviconButton();
 		});
+
+		setTimeout(function() {
+			if (pictureContentTimestamp == timestamp) {
+				restoreGenerateFaviconButton();
+			}
+		}, 3000);
 	}
 
 	function restoreGenerateFaviconButton() {
@@ -216,7 +238,14 @@
 						(response.favicon_in_root ? '' : '&ignore_root_issues=on');
 					jQuery('#checker_link').attr('href', checkerUrl);
 					jQuery('#install_in_progress_message').fadeOut(function() {
-						jQuery('#install_completed_message').fadeIn();
+						jQuery('#install_completed_message').fadeIn(function() {
+							jQuery('#rank_notice').fadeIn(function() {
+								jQuery('#rank_notice').effect('pulsate', {
+									times: 3,
+									duration: 2000
+								});
+							});
+						});
 						jQuery('#install_completed_container').fadeIn();
 						jQuery('#favicon_form_container').fadeIn();
 					});

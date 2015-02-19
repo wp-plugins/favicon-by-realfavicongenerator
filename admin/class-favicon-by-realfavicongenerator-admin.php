@@ -122,6 +122,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		// External files
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui' );
+		wp_enqueue_script( 'jquery-effects-pulsate' );
 		wp_enqueue_media();
 		wp_enqueue_style( 'fbrfg_admin_style', plugins_url( 'assets/css/admin.css', __FILE__ ) );
 
