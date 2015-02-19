@@ -137,11 +137,12 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 
 			$extractedPath = $outputDirectory . '/favicon_package';
 			if ( ! file_exists( $extractedPath ) ) {
-				mkdir( $extractedPath, 0755 );
+				mkdir( $extractedPath, 0755, true );
 			}
 			
+			WP_Filesystem();
 			unzip_file( $packagePath, $extractedPath );
-				
+			
 			if ( $this->isCompressed() ) {
 				// As of today, when the user chooses the compress the picture, 
 				// the package is provided in two flavors, in two distinct directories.
