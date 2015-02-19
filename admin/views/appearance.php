@@ -12,7 +12,13 @@
 	</div>
 
 	<div id="install_completed_message" class="updated" style="display:none">
-		<p><?php _e( 'Favicon installed!', FBRFG_PLUGIN_SLUG ) ?></p>
+		<p>
+			<?php _e( 'Favicon installed!', FBRFG_PLUGIN_SLUG ) ?>
+			<span id="rank_notice" style="display:none">
+				<?php printf( __( 'Do you like the result? If so, would you like to <a %s>rate the plugin</a>?', FBRFG_PLUGIN_SLUG ), 
+					'target="_blank" href="https://wordpress.org/support/view/plugin-reviews/favicon-by-realfavicongenerator"' ) ?>
+			</span>
+		</p>
 	</div>
 	<div id="install_error_message" class="error" style="display:none"><p></p></div>
 
@@ -232,7 +238,14 @@
 						(response.favicon_in_root ? '' : '&ignore_root_issues=on');
 					jQuery('#checker_link').attr('href', checkerUrl);
 					jQuery('#install_in_progress_message').fadeOut(function() {
-						jQuery('#install_completed_message').fadeIn();
+						jQuery('#install_completed_message').fadeIn(function() {
+							jQuery('#rank_notice').fadeIn(function() {
+								jQuery('#rank_notice').effect('pulsate', {
+									times: 3,
+									duration: 2000
+								});
+							});
+						});
 						jQuery('#install_completed_container').fadeIn();
 						jQuery('#favicon_form_container').fadeIn();
 					});
