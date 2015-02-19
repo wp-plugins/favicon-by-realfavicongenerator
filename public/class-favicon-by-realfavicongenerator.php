@@ -9,7 +9,9 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 	private function __construct() {
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
 		add_action( 'wp_head', array( $this, 'add_favicon_markups' ) );
+		add_action( 'login_head', array( $this, 'add_favicon_markups' ) );
 
 		// Deactivate Genesis default favicon
 		add_filter( 'genesis_pre_load_favicon', array( $this, 'return_empty_favicon_for_genesis' ) );
@@ -21,7 +23,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 	public function check_for_updates() {
 		if ( ! $this->is_favicon_configured() ) {
 			// No favicon so nothing to update
-			error_log("RFG update checking: no favicon configured");
+			//error_log("RFG update checking: no favicon configured");
 			return;
 		}
 
@@ -29,7 +31,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 		if ( $version == NULL ) {
 			// No version for some reason. Let's leave.
-			error_log("RFG update checking: current version not available");
+			//error_log("RFG update checking: current version not available");
 			return;
 		}
 
@@ -38,14 +40,14 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 		if ( ( $resp == NULL ) || ( $resp == false ) || ( is_wp_error( $resp ) )  || 
 			 ( $resp['response'] == NULL ) || ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
 			// Error of some kind? Return
-			error_log("RFG update checking: cannot get latest version from RealFaviconGenerator" . 
-				( is_wp_error( $resp ) ? ': ' . $resp->get_error_message() : '' ) . ' (URL was ' . $checkUrl . ')' );
+			//error_log("RFG update checking: cannot get latest version from RealFaviconGenerator" . 
+			//	( is_wp_error( $resp ) ? ': ' . $resp->get_error_message() : '' ) . ' (URL was ' . $checkUrl . ')' );
 			return;
 		}
 
 		$json = json_decode( $resp['body'], true );
 		if ( empty( $json ) ) {
-			error_log('RFG update checking: No change since version ' . $version . ' or cannot parse JSON (JSON parsing error code is ' . json_last_error() . ')' );
+			//error_log('RFG update checking: No change since version ' . $version . ' or cannot parse JSON (JSON parsing error code is ' . json_last_error() . ')' );
 			return;
 		}
 
@@ -55,7 +57,7 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 		$latestVersion = $last['version'];
 
 		// Save the fact that we should update
-		error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
+		//error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
 		$this->set_update_available( true );
 		$this->set_latest_version_available( $latestVersion );
 	}
@@ -72,65 +74,10 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 
 
 	public static function activate( $network_wide ) {
-
-		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-
-			if ( $network_wide  ) {
-
-				// Get all blog ids
-				$blog_ids = self::get_blog_ids();
-
-				foreach ( $blog_ids as $blog_id ) {
-
-					switch_to_blog( $blog_id );
-					self::single_activate();
-				}
-
-				restore_current_blog();
-
-			} else {
-				self::single_activate();
-			}
-
-		} else {
-			self::single_activate();
-		}
-
-	}
-
-	public static function deactivate( $network_wide ) {
-
-		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
-
-			if ( $network_wide ) {
-
-				// Get all blog ids
-				$blog_ids = self::get_blog_ids();
-
-				foreach ( $blog_ids as $blog_id ) {
-
-					switch_to_blog( $blog_id );
-					self::single_deactivate();
-
-				}
-
-				restore_current_blog();
-
-			} else {
-				self::single_deactivate();
-			}
-
-		} else {
-			self::single_deactivate();
-		}
-
-	}
-
-	private static function single_activate() {
 		// Nothing to do
 	}
 
-	private static function single_deactivate() {
+	public static function deactivate( $network_wide ) {
 		wp_clear_scheduled_hook( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE );
 	}
 

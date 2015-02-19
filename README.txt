@@ -2,8 +2,8 @@
 Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: 1.2.1
+Tested up to: 4.1
+Stable tag: 1.2.11
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 * English (`en_EN`) by [Philippe Bernard](http://realfavicongenerator.net/)
 * French (`fr_FR`) by [Philippe Bernard](http://realfavicongenerator.net/)
 * Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
+* Brazilian Portuguese (`pt_BR`) by Marcelo Volgarini, [Criação de Sites](http://www.techload.com.br/criacao-de-sites-ribeirao-preto)
 
 == Installation ==
 
@@ -69,6 +70,49 @@ This screen presents you a preview of the favicon you various platforms, so you 
 5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.2.11 =
+
+- When the admin's browser cannot get the picture selected from the Media Library, the UI fails gracefully.
+- Favicon package unzipping is more robust.
+- Notice to ask users to rank the plugin on WordPress.org.
+
+= 1.2.10 =
+
+- Warning fix when used with BuddyPress (bp_setup_current_user). See https://wordpress.org/support/topic/wp_debug-notice-for-bp_setup_current_user.
+
+= 1.2.9 =
+
+- When selected from the Media Library, the master picture is now retrieved by WP administrator's browser to prevent several issues (locally hosted blogs, blogs protected in a way or another, etc.).
+
+= 1.2.8 =
+
+- Plugin successfully tested against WordPress 4.1.
+
+= 1.2.7 =
+
+- Fix for WordPress sites hosted on Windows.
+
+= 1.2.6 =
+
+- The plugin is now compatible with multisite.
+
+= 1.2.5 =
+
+- Fix for login page: favicon code was not injected in this particular page.
+
+= 1.2.4 =
+
+- Remove debug messages to avoid false positives in error log.
+
+= 1.2.3 =
+
+- Update notifications can be dismissed once for all.
+- New Settings page to enable/disable update notifications.
+
+= 1.2.2 =
+
+- Fix for the 403 issue with HostGator hosting service (http://wordpress.org/support/topic/403-error-when-generating-favicon).
 
 = 1.2.1 =
 
