@@ -120,16 +120,22 @@
 	// See http://stackoverflow.com/questions/934012/get-image-data-in-javascript
 	// Credits: Matthew Crumley
 	function getBase64Image(img) {
-		var canvas = document.createElement("canvas");
-		canvas.width = img.width;
-		canvas.height = img.height;
+		try {
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
 
-		var ctx = canvas.getContext("2d");
-		ctx.drawImage(img, 0, 0);
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
 
-		var dataURL = canvas.toDataURL("image/png");
+			var dataURL = canvas.toDataURL("image/png");
 
-		return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+			return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+		}
+		catch(err) {
+			console.log("Cannot get the picture from the Media Library: " + err);
+			return null;
+		}
 	}
 
 	function computeJson() {
@@ -175,8 +181,12 @@
 	}
 
 	var pictureContent = null;
+	var pictureContentTimestamp = null;
 
 	function prepareInlinePicture(pictureUrl) {
+		var timestamp = new Date().getTime();
+		pictureContentTimestamp	= timestamp;
+
 		jQuery('#generate_favicon_button').attr('disabled', 'disabled');
 		jQuery('#generate_favicon_button').val("<?php _e( 'Preparing master picture...', FBRFG_PLUGIN_SLUG ) ?>");
 
@@ -188,6 +198,12 @@
 			}
 			restoreGenerateFaviconButton();
 		});
+
+		setTimeout(function() {
+			if (pictureContentTimestamp == timestamp) {
+				restoreGenerateFaviconButton();
+			}
+		}, 3000);
 	}
 
 	function restoreGenerateFaviconButton() {
