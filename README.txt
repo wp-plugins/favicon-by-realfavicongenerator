@@ -74,6 +74,7 @@ This screen presents you a preview of the favicon you various platforms, so you 
 = 1.2.12 =
 
 - Performance improvements: favicon update checking is now done in the Admin section (not the Public section), locales are not loaded in the Public section anymore.
+- Take advantage of the Rewrite API (when available) to make the files appear to be in the root directory. So http://example.com/favicon.ico works (eg. when requested by Yandex).
 
 = 1.2.11 =
 

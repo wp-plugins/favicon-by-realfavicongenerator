@@ -102,7 +102,10 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		// Prepare settings page
 
 		// Option to allow user to not use the Rewrite API: display it only when the Rewrite API is available
-		$can_rewrite = $this->can_access_pics_with_url_rewrite();
+		// Due to too many problems with the rewrite API (for example, http://wordpress.org/support/topic/do-not-work-8),
+		// it was deciced to turn the feature off once for all
+		$can_rewrite = false;
+
 		$pic_path = $this->get_full_picture_path();
 
 		$favicon_configured = $this->is_favicon_configured();
@@ -274,7 +277,10 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			}
 		}
 
-		if ( $rfg_response->isFilesInRoot() ) {
+		// Even if the package was not supposed to be put in root, make the files (also) appear at the root of the site
+		// So /favicon.ico works, for example.
+		// See https://wordpress.org/support/topic/choose-between-rewrite-api-and-dedicated-directory
+		if ( $this->can_access_pics_with_url_rewrite() ) {
 			$this->rewrite_pictures_url( $working_dir );
 			flush_rewrite_rules();
 		}
@@ -295,24 +301,20 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	public function can_access_pics_with_url_rewrite() {
 		global $wp_rewrite;
 
-		// Due to too many problems with the rewrite API (for example, http://wordpress.org/support/topic/do-not-work-8?replies=3#post-),
-		// it was deciced to turn the feature off once for all
-		return false;
-
 		// If blog is in root AND rewriting is available (http://wordpress.stackexchange.com/questions/142273/checking-that-the-rewrite-api-is-available),
 		// we can produce URLs such as /favicon.ico
-//		$rewrite = ( $this->wp_in_root() && $wp_rewrite->using_permalinks() );
-//		if ( ! $rewrite ) {
-//			return false;
-//		}
+		$rewrite = ( $this->wp_in_root() && $wp_rewrite->using_permalinks() );
+		if ( ! $rewrite ) {
+			return false;
+		}
 
 		// See http://wordpress.org/support/topic/fbrfg-not-updating-htaccess-rewrite-rules
-//		$htaccess = get_home_path() . '/.htaccess';
+		$htaccess = get_home_path() . '/.htaccess';
 		// Two cases:
 		//   - There is no .htaccess. Either we are not using Apache (so the Rewrite API is supposed to handle
 		//     the rewriting differently) or there is a problem with Apache/WordPress config, but this is not our job.
 		//   - .htaccess is present. If so, it should be writable.
-//		return ( ( ! file_exists( $htaccess ) ) || is_writable( $htaccess ) );
+		return ( ( ! file_exists( $htaccess ) ) || is_writable( $htaccess ) );
 	}
 
 	/**
