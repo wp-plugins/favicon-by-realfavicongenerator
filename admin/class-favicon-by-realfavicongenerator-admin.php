@@ -25,6 +25,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		// - https://buddypress.org/support/topic/wp_debug-notice-for-bp_setup_current_user
 		// The idea: is_super_admin must not be called too soon.
 		add_action( 'init', array( $this, 'register_admin_actions' ) );
+
+		// Check for updates
+		add_action( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE, array( $this, 'check_for_updates' )  );
 	}
 
 	/**
