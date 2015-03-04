@@ -8,8 +8,6 @@ class Favicon_By_RealFaviconGenerator extends Favicon_By_RealFaviconGenerator_Co
 	protected static $instance = null;
 
 	private function __construct() {
-		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-
 		add_action( 'wp_head', array( $this, 'add_favicon_markups' ) );
 		add_action( 'login_head', array( $this, 'add_favicon_markups' ) );
 
