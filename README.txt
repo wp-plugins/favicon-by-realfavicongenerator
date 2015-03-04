@@ -3,7 +3,7 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 4.1.1
-Stable tag: 1.2.11
+Stable tag: 1.2.12
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ This screen presents you a preview of the favicon you various platforms, so you 
 5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.2.12 =
+
+- Performance improvements: favicon update checking is now done in the Admin section (not the Public section), locales are not loaded in the Public section anymore.
 
 = 1.2.11 =
 
