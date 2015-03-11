@@ -36,6 +36,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 * French (`fr_FR`) by [Philippe Bernard](http://realfavicongenerator.net/)
 * Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
 * Brazilian Portuguese (`pt_BR`) by Marcelo Volgarini, [Criação de Sites](http://www.techload.com.br/criacao-de-sites-ribeirao-preto)
+* Dutch (`nl_NL`) by Axel Vanderhaeghen
 
 == Installation ==
 
@@ -75,6 +76,7 @@ This screen presents you a preview of the favicon you various platforms, so you 
 
 - Performance improvements: favicon update checking is now done in the Admin section (not the Public section), locales are not loaded in the Public section anymore.
 - Take advantage of the Rewrite API (when available) to make the files appear to be in the root directory. So http://example.com/favicon.ico works (eg. when requested by Yandex).
+- nl/NL translation added, thanks to Axel Vanderhaeghen.
 
 = 1.2.11 =
 
