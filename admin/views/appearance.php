@@ -179,7 +179,9 @@
 <?php } ?>
 
 		params.favicon_generation.callback.type = 'url';
-		params.favicon_generation.callback.url = "<?php echo admin_url('themes.php?page=favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_appearance_menu') ?>";
+		params.favicon_generation.callback.url = "<?php echo admin_url('themes.php?page=' . ( ( isset( $_REQUEST['page'] ) ) 
+			? $_REQUEST['page']
+			: 'favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_appearance_menu' ) ) ?>";
 		params.favicon_generation.callback.short_url = 'true';
 		params.favicon_generation.callback.path_only = 'true';
 

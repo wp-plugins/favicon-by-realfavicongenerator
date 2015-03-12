@@ -211,6 +211,49 @@ class Favicon_By_RealFaviconGenerator_Common {
 			return $url . '?' . $param_and_value;
 		}
 	}
+
+	public function check_for_updates() {
+		if ( ! $this->is_favicon_configured() ) {
+			// No favicon so nothing to update
+			//error_log("RFG update checking: no favicon configured");
+			return;
+		}
+
+		$version = $this->get_favicon_version();
+
+		if ( $version == NULL ) {
+			// No version for some reason. Let's leave.
+			//error_log("RFG update checking: current version not available");
+			return;
+		}
+
+		$checkUrl = 'http://realfavicongenerator.net/api/versions?since=' . $version;
+		$resp = wp_remote_get( $checkUrl );
+		if ( ( $resp == NULL ) || ( $resp == false ) || ( is_wp_error( $resp ) )  || 
+			 ( $resp['response'] == NULL ) || ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
+			// Error of some kind? Return
+			//error_log("RFG update checking: cannot get latest version from RealFaviconGenerator" . 
+			//	( is_wp_error( $resp ) ? ': ' . $resp->get_error_message() : '' ) . ' (URL was ' . $checkUrl . ')' );
+			return;
+		}
+
+		$json = json_decode( $resp['body'], true );
+		if ( empty( $json ) ) {
+			//error_log('RFG update checking: No change since version ' . $version . ' or cannot parse JSON (JSON parsing error code is ' . json_last_error() . ')' );
+			return;
+		}
+
+		// We only note the latest available version.
+		// For example, if we receive version 0.8, 0.9 and 0.10 (in this order), we only note 0.10
+		$last = $json[count( $json ) - 1];
+		$latestVersion = $last['version'];
+
+		// Save the fact that we should update
+		//error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
+		$this->set_update_available( true );
+		$this->set_latest_version_available( $latestVersion );
+	}
+
 }
 
 // Shortcut
