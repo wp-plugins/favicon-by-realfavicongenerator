@@ -9,6 +9,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	const DISMISS_UPDATE_NOTIICATION = 'fbrfg_dismiss_update_notification';
 	const DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS = 'fbrfg_dismiss_all_update_notifications';
 	const SETTINGS_FORM = 'fbrfg_settings_form';
+	const NONCE_ACTION_NAME = 'favicon_generation';
 
 	protected static $instance = null;
 
@@ -125,6 +126,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			$new_favicon_params_url = NULL;
 		}
 
+		// Nonce
+		$nonce = wp_create_nonce( NONCE_ACTION_NAME );
+
 		// External files
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui' );
@@ -161,21 +165,31 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 			$response = new Favicon_By_RealFaviconGenerator_Api_Response( $result );
 
-			$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
-			if ( ! file_exists( $zip_path ) ) {
-				mkdir( $zip_path, 0755, true );
+			if ( ! wp_verify_nonce( $response->getCustomParameter(), NONCE_ACTION_NAME ) ) {
+				// Attack in progress?
+?>
+{
+	"status": "error",
+	"message": "<?php _e( 'Nonce was not recognized. This case is supposed to happen only in case of XSS attack. If you feel like something is wrong, please <a href=\"mailto:contact@realfavicongenerator.net\">contact us</a>.', FBRFG_PLUGIN_SLUG ) ?>"
+}
+<?php
 			}
-			$response->downloadAndUnpack( $zip_path );
+			else {
+				$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
+				if ( ! file_exists( $zip_path ) ) {
+					mkdir( $zip_path, 0755, true );
+				}
+				$response->downloadAndUnpack( $zip_path );
 
-			$this->store_pictures( $response );
+				$this->store_pictures( $response );
 
-			$this->store_preview( $response->getPreviewPath() );
+				$this->store_preview( $response->getPreviewPath() );
 
-			Favicon_By_RealFaviconGenerator_Common::remove_directory( $zip_path );
+				Favicon_By_RealFaviconGenerator_Common::remove_directory( $zip_path );
 
-			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
-			
-			$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion() );
+				update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
+				
+				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion() );
 ?>
 {
 	"status": "success",
@@ -183,6 +197,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 	"favicon_in_root": <?php echo json_encode( $this->is_favicon_in_root() ) ?>
 }
 <?php
+			}
 		}
 		catch(Exception $e) {
 ?>

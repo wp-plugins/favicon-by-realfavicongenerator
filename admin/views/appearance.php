@@ -184,6 +184,7 @@
 			: 'favicon-by-realfavicongenerator/admin/class-favicon-by-realfavicongenerator-admin.phpfavicon_appearance_menu' ) ) ?>";
 		params.favicon_generation.callback.short_url = 'true';
 		params.favicon_generation.callback.path_only = 'true';
+		params.favicon_generation.callback.custom_parameter = "<?php echo $nonce ?>";
 
 		return params;
 	}

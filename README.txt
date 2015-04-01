@@ -3,11 +3,11 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Requires at least: 3.5
 Tested up to: 4.1.1
-Stable tag: 1.2.12
+Stable tag: 1.2.13
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create and install your favicon for all platforms: PC/Mac of course, but also iPhone/iPad, Android devices, Windows 8 tablets...
+Create and install your favicon for all platforms: PC/Mac, iPhone/iPad, Android devices, Windows 8 tablets...
 
 == Description ==
 
@@ -71,6 +71,10 @@ This screen presents you a preview of the favicon you various platforms, so you 
 5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.2.13 =
+
+- XSS vulnerability fixed, reported by [Kacper Szurek](http://security.szurek.pl/)
 
 = 1.2.12 =
 
