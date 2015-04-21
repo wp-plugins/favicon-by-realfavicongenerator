@@ -413,4 +413,3 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		}
 	}
 }
-?>

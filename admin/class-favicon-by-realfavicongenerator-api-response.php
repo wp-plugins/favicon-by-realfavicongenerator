@@ -221,4 +221,3 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	}
 	
 }
-?>
