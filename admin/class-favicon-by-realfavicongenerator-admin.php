@@ -118,7 +118,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			// New favicon to install:
 			// Parameters will be processed with an Ajax call
 
-			$new_favicon_params_url = 'http://realfavicongenerator.net' . $_REQUEST['json_result_url'];
+			$new_favicon_params_url = $_REQUEST['json_result_url'];
 			$ajax_url = admin_url( 'admin-ajax.php', isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' );
 		}
 		else {
@@ -159,7 +159,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		try {
 			// URL is explicitely decoded to compensate the extra encoding performed while generating the settings page
-			$url = $_REQUEST['json_result_url'];
+			$url = 'https://realfavicongenerator.net' . $_REQUEST['json_result_url'];
 
 			$result = $this->download_result_json( $url );
 
