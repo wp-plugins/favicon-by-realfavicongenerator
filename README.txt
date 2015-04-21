@@ -75,6 +75,7 @@ This screen presents you a preview of the favicon you various platforms, so you 
 = 1.2.14 =
 
 - Security improvement.
+- Warning fix regarding NONCE_ACTION_NAME.
 
 = 1.2.13 =
 
