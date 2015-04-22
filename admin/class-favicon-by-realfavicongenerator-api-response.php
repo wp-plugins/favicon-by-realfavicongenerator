@@ -127,21 +127,37 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	 * in an Ajax call, to not slow down the user experience.
 	 */
 	public function downloadAndUnpack( $outputDirectory = NULL ) {
+		global $wp_filesystem;
 		if ( $outputDirectory == NULL ) {
 			$outputDirectory = get_temp_dir();
 		}
 		
 		if ( $this->getPackageUrl() != NULL ) {
-			$packagePath = $outputDirectory . '/favicon_package.zip';
+			$packagePath = $outputDirectory . 'favicon_package.zip';
 			$this->downloadFile( $packagePath, $this->getPackageUrl() );
 
-			$extractedPath = $outputDirectory . '/favicon_package';
+			$extractedPath = $outputDirectory . 'favicon_package';
 			if ( ! file_exists( $extractedPath ) ) {
-				mkdir( $extractedPath, 0755, true );
+				if ( mkdir( $extractedPath, 0755, true ) !== true ) {
+					throw new InvalidArgumentException(
+						sprintf( __( 'Cannot create directory %s to store the favicon package content', FBRFG_PLUGIN_SLUG), $extractedPath ) );
+				}
 			}
 			
-			WP_Filesystem();
-			unzip_file( $packagePath, $extractedPath );
+			$ret = WP_Filesystem();
+			$result = unzip_file( $packagePath, $extractedPath );
+			if ( $result !== true ) {
+				$explanation = ( is_wp_error( $result ) ) 
+					? $result->get_error_message()
+					: __( 'Unknown reason', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
+				if ( get_class($wp_filesystem) != 'WP_Filesystem_Direct' ) {
+					$explanation .= __( "Apparently WordPress has no direct access to the file system (it uses another mean such as FTP). " .
+						"This may be the root cause of this issue.", Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
+				}
+				throw new InvalidArgumentException(
+					sprintf( __( 'Error while unziping the favicon package %s to directory %s', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ),
+					$packagePath, $extractedPath ) . ': ' . $explanation );
+			}
 			
 			if ( $this->isCompressed() ) {
 				// As of today, when the user chooses the compress the picture, 
@@ -211,12 +227,14 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	
 	private function downloadFile( $localPath, $url ) {
 		$resp = wp_remote_get( $url, array( 'filename' => $localPath, 'stream' => true ) );
-		if ( ( $resp == NULL ) || ( $resp == false ) || ( $resp['response'] == NULL ) || 
+		if ( ( $resp == NULL ) || ( $resp == false ) || ( is_wp_error( $resp ) ) || ( $resp['response'] == NULL ) || 
 			 ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
-			throw new InvalidArgumentException( "Cannot download file at " . $url );
+			$explanation = is_wp_error( $resp ) ? ( ': ' . $resp->get_error_message() ) : '' ;
+			throw new InvalidArgumentException(
+				sprintf( __( 'Cannot download file at %s', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ), $url ) . $explanation );
 		}
 		if ( ( ! file_exists( $localPath ) ) || ( filesize( $localPath ) <= 0 ) ) {
-			throw new InvalidArgumentException( "Cannot store downloaded file locally" );
+			throw new InvalidArgumentException( __( 'Cannot store downloaded file locally', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ) );
 		}
 	}
 	

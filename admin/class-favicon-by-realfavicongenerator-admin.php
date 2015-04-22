@@ -177,7 +177,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			else {
 				$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
 				if ( ! file_exists( $zip_path ) ) {
-					mkdir( $zip_path, 0755, true );
+					if ( mkdir( $zip_path, 0755, true ) !== true ) {
+						throw new InvalidArgumentException( sprintf( __( 'Cannot create directory %s to store the favicon package', FBRFG_PLUGIN_SLUG), $zip_path ) );
+					}
 				}
 				$response->downloadAndUnpack( $zip_path );
 

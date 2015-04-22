@@ -77,6 +77,7 @@ This screen presents you a preview of the favicon you various platforms, so you 
 - Security improvement.
 - Warning fix regarding NONCE_ACTION_NAME.
 - Useless PHP closing tags removed.
+- Error checking added to favicon package unzipping.
 
 = 1.2.13 =
 
