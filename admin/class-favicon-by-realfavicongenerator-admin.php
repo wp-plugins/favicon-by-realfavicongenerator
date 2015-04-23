@@ -127,7 +127,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		}
 
 		// Nonce
-		$nonce = wp_create_nonce( NONCE_ACTION_NAME );
+		$nonce = wp_create_nonce( Favicon_By_RealFaviconGenerator_Admin::NONCE_ACTION_NAME );
 
 		// External files
 		wp_enqueue_script( 'jquery' );
@@ -165,7 +165,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 			$response = new Favicon_By_RealFaviconGenerator_Api_Response( $result );
 
-			if ( ! wp_verify_nonce( $response->getCustomParameter(), NONCE_ACTION_NAME ) ) {
+			if ( ! wp_verify_nonce( $response->getCustomParameter(), Favicon_By_RealFaviconGenerator_Admin::NONCE_ACTION_NAME ) ) {
 				// Attack in progress?
 ?>
 {
@@ -177,7 +177,9 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 			else {
 				$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
 				if ( ! file_exists( $zip_path ) ) {
-					mkdir( $zip_path, 0755, true );
+					if ( mkdir( $zip_path, 0755, true ) !== true ) {
+						throw new InvalidArgumentException( sprintf( __( 'Cannot create directory %s to store the favicon package', FBRFG_PLUGIN_SLUG), $zip_path ) );
+					}
 				}
 				$response->downloadAndUnpack( $zip_path );
 
@@ -413,4 +415,3 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		}
 	}
 }
-?>

@@ -155,7 +155,7 @@ class Favicon_By_RealFaviconGenerator_Common {
 	}
 
 	public static function get_tmp_dir() {
-		return Favicon_By_RealFaviconGenerator_Common::get_files_dir() . '/tmp/';
+		return Favicon_By_RealFaviconGenerator_Common::get_files_dir() . 'tmp/';
 	}
 
 	public static function remove_directory($directory) {
