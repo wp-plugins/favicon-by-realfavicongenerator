@@ -151,7 +151,7 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 					? $result->get_error_message()
 					: __( 'Unknown reason', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
 				if ( get_class($wp_filesystem) != 'WP_Filesystem_Direct' ) {
-					$explanation .= __( "Apparently WordPress has no direct access to the file system (it uses another mean such as FTP). " .
+					$explanation .= ' ' . __( "Apparently WordPress has no direct access to the file system (it uses another mean such as FTP). " .
 						"This may be the root cause of this issue.", Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
 				}
 				throw new InvalidArgumentException(
