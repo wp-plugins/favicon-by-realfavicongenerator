@@ -1,6 +1,7 @@
 === Favicon by RealFaviconGenerator ===
 Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
+Donate link: http://realfavicongenerator.net/donate
 Requires at least: 3.5
 Tested up to: 4.2
 Stable tag: 1.2.14
