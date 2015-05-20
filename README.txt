@@ -3,8 +3,8 @@ Contributors: phbernard
 Tags: favicon, apple-touch-icon, realfavicongenerator
 Donate link: http://realfavicongenerator.net/donate
 Requires at least: 3.5
-Tested up to: 4.2
-Stable tag: 1.2.14
+Tested up to: 4.2.2
+Stable tag: 1.2.15
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
