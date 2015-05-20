@@ -73,6 +73,11 @@ This screen presents you a preview of the favicon you various platforms, so you 
 
 == Changelog ==
 
+= 1.2.15 =
+
+- Donation link added.
+- Plugin now works when access to file system is via FTP (not direct). See https://wordpress.org/support/topic/no-images-created
+
 = 1.2.14 =
 
 - Security improvement.
