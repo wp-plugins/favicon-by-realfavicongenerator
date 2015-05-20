@@ -44,6 +44,7 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		$this->params[RFG_PACKAGE_URL] = $this->getParam( $favicon, 'package_url' );
 		$this->params[RFG_COMPRESSION] = $this->getParam( $favicon, 'compression' ) == 'true';
 		$this->params[RFG_HTML_CODE] = $this->getParam( $favicon, 'html_code' );
+		$this->params[RFG_FILES_URLS] = $this->getParam( $favicon, 'files_urls' );
 		
 		$filesLoc = $this->getParam( $response, 'files_location' );
 		$this->params[RFG_FILES_IN_ROOT] = $this->getParam( $filesLoc, 'type' ) == 'root';
@@ -60,6 +61,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	 */
 	public function getPackageUrl() {
 		return $this->params[RFG_PACKAGE_URL];
+	}
+
+	/**
+	 * For example: <code>array( "http://realfavicongenerator.net/files/1234f5d2s34f3ds2/apple-touch-icon.png", ... )</code>
+	 */
+	public function getFilesURLs() {
+		return $this->params[RFG_FILES_URLS];
 	}
 	
 	/**
@@ -133,9 +141,6 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		}
 		
 		if ( $this->getPackageUrl() != NULL ) {
-			$packagePath = $outputDirectory . 'favicon_package.zip';
-			$this->downloadFile( $packagePath, $this->getPackageUrl() );
-
 			$extractedPath = $outputDirectory . 'favicon_package';
 			if ( ! file_exists( $extractedPath ) ) {
 				if ( mkdir( $extractedPath, 0755, true ) !== true ) {
@@ -143,45 +148,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 						sprintf( __( 'Cannot create directory %s to store the favicon package content', FBRFG_PLUGIN_SLUG), $extractedPath ) );
 				}
 			}
-			
-			$ret = WP_Filesystem();
-			$result = unzip_file( $packagePath, $extractedPath );
-			if ( $result !== true ) {
-				$explanation = ( is_wp_error( $result ) ) 
-					? $result->get_error_message()
-					: __( 'Unknown reason', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
-				if ( get_class($wp_filesystem) != 'WP_Filesystem_Direct' ) {
-					$explanation .= ' ' . __( "Apparently WordPress has no direct access to the file system (it uses another mean such as FTP). " .
-						"This may be the root cause of this issue.", Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
-				}
-				throw new InvalidArgumentException(
-					sprintf( __( 'Error while unziping the favicon package %s to directory %s', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ),
-					$packagePath, $extractedPath ) . ': ' . $explanation );
-			}
-			
-			if ( $this->isCompressed() ) {
-				// As of today, when the user chooses the compress the picture, 
-				// the package is provided in two flavors, in two distinct directories.
-				// Later, only the compressed version will be provided. Thus, the following code
-				// handles both scenarios.
-				if ( is_dir( $extractedPath . '/compressed' ) ) {
-					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . '/compressed';
-				} else {
-					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
-				}
 
-				if ( is_dir( $extractedPath . '/uncompressed' ) ) {
-					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . '/uncompressed';
-				} else {
-					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-				}
-
-				$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
+			try {
+				$this->downloadZipFile( $outputDirectory, $extractedPath, $this->getPackageUrl() );
 			}
-			else {
-				$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
-				$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-				$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
+			catch(Exception $e) {
+				// Zip file download failed, try getting files directly
+				$this->downloadFilesDirectly( $extractedPath, array() );
 			}
 		}
 		
@@ -189,6 +162,69 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 			$previewPath = $outputDirectory . '/favicon_preview.png';
 			$this->downloadFile( $previewPath, $this->getPreviewUrl() );
 			$this->params[RFG_PREVIEW_PATH] = $previewPath;
+		}
+	}
+
+	public function downloadFilesDirectly( $outputDirectory, $filesURLs ) {
+		foreach($this->getFilesURLs() as $fileURL ) {
+			$parts = parse_url( $fileURL );
+			$filePath = $outputDirectory . '/' . basename( $parts['path'] );
+			$this->downloadFile( $filePath, $fileURL );
+		}
+
+		$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] = $outputDirectory;
+		if ( $this->isCompressed() ) {
+			$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
+			$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = NULL;
+		}
+		else {
+			$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
+			$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
+		}
+	}
+
+	public function downloadZipFile( $packageDirectory, $extractedPath, $packageUrl ) {
+		$packagePath = $packageDirectory . 'favicon_package.zip';
+		$this->downloadFile( $packagePath, $packageUrl );
+		
+		$ret = WP_Filesystem();
+		$result = unzip_file( $packagePath, $extractedPath );
+		if ( $result !== true ) {
+			$explanation = ( is_wp_error( $result ) ) 
+				? $result->get_error_message()
+				: __( 'Unknown reason', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
+			if ( get_class($wp_filesystem) != 'WP_Filesystem_Direct' ) {
+				$explanation .= ' ' . __( "Apparently WordPress has no direct access to the file system (it uses another mean such as FTP). " .
+					"This may be the root cause of this issue.", Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG );
+			}
+			throw new InvalidArgumentException(
+				sprintf( __( 'Error while unziping the favicon package %s to directory %s', Favicon_By_RealFaviconGenerator_Common::PLUGIN_SLUG ),
+				$packagePath, $extractedPath ) . ': ' . $explanation );
+		}
+		
+		if ( $this->isCompressed() ) {
+			// As of today, when the user chooses the compress the picture, 
+			// the package is provided in two flavors, in two distinct directories.
+			// Later, only the compressed version will be provided. Thus, the following code
+			// handles both scenarios.
+			if ( is_dir( $extractedPath . '/compressed' ) ) {
+				$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . '/compressed';
+			} else {
+				$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath;
+			}
+
+			if ( is_dir( $extractedPath . '/uncompressed' ) ) {
+				$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . '/uncompressed';
+			} else {
+				$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
+			}
+
+			$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
+		}
+		else {
+			$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
+			$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
+			$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
 		}
 	}
 
