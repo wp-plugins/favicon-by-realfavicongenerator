@@ -191,7 +191,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 				update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
 				
-				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion() );
+				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion(), $response->getNonInteractiveAPIRequest() );
 ?>
 {
 	"status": "success",

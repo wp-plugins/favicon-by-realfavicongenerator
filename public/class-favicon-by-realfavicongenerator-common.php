@@ -5,16 +5,17 @@ class Favicon_By_RealFaviconGenerator_Common {
 	
 	const PLUGIN_PREFIX = 'fbrfg';
 
-	const OPTION_FAVICON_CONFIGURED = 'fbrfg_favicon_configured';
-	const OPTION_FAVICON_IN_ROOT    = 'fbrfg_favicon_in_root';
-	const OPTION_PREVIEW_FILE_NAME  = 'fbrfg_preview_file_name';
-	const OPTION_HTML_CODE          = 'fbrfg_html_code';
-	const OPTION_FAVICON_VERSION    = 'fbrfg_favicon_version';
-	const OPTION_UPDATE_AVAILABLE   = 'fbrfg_update_available';
-	const OPTION_LATEST_VERSION     = 'fbrfg_latest_version';
+	const OPTION_FAVICON_CONFIGURED                  = 'fbrfg_favicon_configured';
+	const OPTION_FAVICON_IN_ROOT                     = 'fbrfg_favicon_in_root';
+	const OPTION_PREVIEW_FILE_NAME                   = 'fbrfg_preview_file_name';
+	const OPTION_HTML_CODE                           = 'fbrfg_html_code';
+	const OPTION_FAVICON_VERSION                     = 'fbrfg_favicon_version';
+	const OPTION_FAVICON_NON_INTERACTIVE_API_REQUEST = 'fbrfg_favicon_non_interactive_api_request';
+	const OPTION_UPDATE_AVAILABLE                    = 'fbrfg_update_available';
+	const OPTION_LATEST_VERSION                      = 'fbrfg_latest_version';
 
-	const META_NO_UPDATE_NOTICE_FOR_VERSION = 'fbrfg_ignore_update_notice_';
-	const META_NO_UPDATE_NOTICE = 'fbrfg_no_update_notice';
+	const META_NO_UPDATE_NOTICE_FOR_VERSION          = 'fbrfg_ignore_update_notice_';
+	const META_NO_UPDATE_NOTICE                      = 'fbrfg_no_update_notice';
 
 	public static function get_options_list() {
 		return array(
@@ -79,7 +80,11 @@ class Favicon_By_RealFaviconGenerator_Common {
 		return get_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_VERSION, "0.7" );
 	}
 
-	public function set_favicon_configured( $configured = true, $favicon_in_root = false, $version = NULL ) {
+	public function get_non_interactive_api_request() {
+		return get_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_NON_INTERACTIVE_API_REQUEST );
+	}
+
+	public function set_favicon_configured( $configured = true, $favicon_in_root = false, $version = NULL, $non_interactive_api_request = NULL ) {
 		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CONFIGURED,
 			$configured ? 1 : 0 );
 		update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT,
@@ -88,6 +93,11 @@ class Favicon_By_RealFaviconGenerator_Common {
 		if ( $version != NULL ) {
 			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_VERSION,
 				$version );
+		}
+
+		if ( $non_interactive_api_request != NULL ) {
+			update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_NON_INTERACTIVE_API_REQUEST,
+				$non_interactive_api_request );
 		}
 
 		// We've just configured a favicon with the latest version of RFG so...
