@@ -253,15 +253,81 @@ class Favicon_By_RealFaviconGenerator_Common {
 			return;
 		}
 
-		// We only note the latest available version.
-		// For example, if we receive version 0.8, 0.9 and 0.10 (in this order), we only note 0.10
-		$last = $json[count( $json ) - 1];
-		$latestVersion = $last['version'];
+		// Check update relevancy
+		$manual = false;
+		$automatic = false;
+		foreach($json as $version) {
+			if ( $version['relevance']['manual_update'] ) {
+				$manual = true;
+			}
+			if ( $version['relevance']['automated_update'] ) {
+				$automatic = true;
+			}
+		}
 
-		// Save the fact that we should update
-		//error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
-		$this->set_update_available( true );
-		$this->set_latest_version_available( $latestVersion );
+		if ( $manual ) {
+			// Manual update
+
+			// We only note the latest available version.
+			// For example, if we receive version 0.8, 0.9 and 0.10 (in this order), we only note 0.10
+			$last = $json[count( $json ) - 1];
+			$latestVersion = $last['version'];
+
+			// Save the fact that we should update
+			//error_log( 'RFG update checking: we should update to ' . $latestVersion . ' (version of current favicon is ' . $version . ')');
+			$this->set_update_available( true );
+			$this->set_latest_version_available( $latestVersion );
+		}
+		else if ( $automatic && $this->get_non_interactive_api_request() ) {
+			// Automatic update
+
+			// Do not run it when the update is also manual, because we are going to ask the user to 
+			// update anyway.
+
+			try {
+				$result = $this->run_non_interactive_api_request( $this->get_non_interactive_api_request() );
+
+				$response = new Favicon_By_RealFaviconGenerator_Api_Response( $result );
+
+				$zip_path = Favicon_By_RealFaviconGenerator_Common::get_tmp_dir();
+				if ( ! file_exists( $zip_path ) ) {
+					if ( mkdir( $zip_path, 0755, true ) !== true ) {
+						throw new InvalidArgumentException( sprintf( __( 'Cannot create directory %s to store the favicon package', FBRFG_PLUGIN_SLUG), $zip_path ) );
+					}
+				}
+				$response->downloadAndUnpack( $zip_path );
+
+				$this->store_pictures( $response );
+
+				$this->store_preview( $response->getPreviewPath() );
+
+				Favicon_By_RealFaviconGenerator_Common::remove_directory( $zip_path );
+
+				update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
+				
+				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion() );
+
+				// TODO: schedule a notice to warn the administrator
+			}
+			catch( Exception $e ) {
+				error_log('Cannot update favicon automatically: ' . $e->getMessage() );
+			}
+		}
+	}
+
+	public function run_non_interactive_api_request( $request ) {
+		$resp = wp_remote_post( 'https://realfavicongenerator.net/api/favicon',
+			array( 'body' => $request, 'timeout' => 45 ) );
+		if ( is_wp_error( $resp )) {
+			throw new InvalidArgumentException( "Cannot run the non-interactive API request for update: " . $resp->get_error_message() );
+		}
+
+		$json = wp_remote_retrieve_body( $resp );
+		if ( empty( $json ) ) {
+			throw new InvalidArgumentException( "Empty JSON document while running the non-interactive API request" );
+		}
+
+		return $json;
 	}
 
 }
