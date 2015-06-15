@@ -237,7 +237,7 @@ class Favicon_By_RealFaviconGenerator_Common {
 			return;
 		}
 
-		$checkUrl = 'http://realfavicongenerator.net/api/versions?since=' . $version;
+		$checkUrl = 'https://realfavicongenerator.net/api/versions?since=' . $version;
 		$resp = wp_remote_get( $checkUrl );
 		if ( ( $resp == NULL ) || ( $resp == false ) || ( is_wp_error( $resp ) )  || 
 			 ( $resp['response'] == NULL ) || ( $resp['response']['code'] == NULL ) || ( $resp['response']['code'] != 200 ) ) {
