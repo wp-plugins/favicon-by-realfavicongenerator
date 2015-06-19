@@ -139,10 +139,6 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 		// Template time!
 		include_once( plugin_dir_path(__FILE__) . 'views/appearance.php' );
-
-
-		$this->log_info("Check for updates");
-		$this->check_for_updates();
 	}
 
 	private function download_result_json( $url ) {
