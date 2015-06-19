@@ -10,15 +10,11 @@ class Favicon_By_RealFaviconGenerator_Common {
 	const OPTION_PREVIEW_FILE_NAME                    = 'fbrfg_preview_file_name';
 	const OPTION_HTML_CODE                            = 'fbrfg_html_code';
 	const OPTION_FAVICON_NON_INTERACTIVE_API_REQUEST  = 'fbrfg_favicon_non_interactive_api_request';
-	const OPTION_LATEST_VERSION                       = 'fbrfg_latest_version';
-	const OPTION_LATEST_AUTOMATICALLY_UPDATED_VERSION = 'fbrfg_latest_automatically_updated_version';
-	const OPTION_AUTOMATIC_UPDATE_DESCRIPTION         = 'fbrfg_autmatic_update_description';
 
 	const OPTION_FAVICON_CURRENT_VERSION              = 'fbrfg_favicon_current_version';
 	const OPTION_MOST_RECENT_AUTOMATIC_UPDATE_FROM    = 'fbrfg_most_recent_automatic_update_from';
 	const OPTION_MOST_RECENT_AUTOMATIC_UPDATE_TO      = 'fbrfg_most_recent_automatic_update_to';
 	const OPTION_LATEST_MANUAL_AVAILABLE_UPDATE       = 'fbrfg_latest_manual_available_update';
-	const OPTION_UPDATE_DESCRIPTION                   = 'fbrfg_update_description_';
 	const OPTION_UPDATES_DATA                         = 'fbrfg_updates_data';
 	const OPTION_UPDATES_LIST                         = 'fbrfg_updates_list';
 
@@ -28,11 +24,18 @@ class Favicon_By_RealFaviconGenerator_Common {
 
 	public static function get_options_list() {
 		return array(
-			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CONFIGURED, 
-			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT, 
+			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CONFIGURED,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_IN_ROOT,
 			Favicon_By_RealFaviconGenerator_Common::OPTION_PREVIEW_FILE_NAME,
 			Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE,
-			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CURRENT_VERSION );
+			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_NON_INTERACTIVE_API_REQUEST,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_FAVICON_CURRENT_VERSION,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_MOST_RECENT_AUTOMATIC_UPDATE_FROM,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_MOST_RECENT_AUTOMATIC_UPDATE_TO,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_LATEST_MANUAL_AVAILABLE_UPDATE,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_UPDATES_DATA,
+			Favicon_By_RealFaviconGenerator_Common::OPTION_UPDATES_LIST,
+			Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE );
 	}
 
 	const PLUGIN_SLUG = 'favicon-by-realfavicongenerator';

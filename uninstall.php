@@ -15,7 +15,10 @@ function fbrfg_clean_site_instance() {
 	}
 
 	// Remove files
-	Favicon_By_RealFaviconGenerator_Common::remove_directory( Favicon_By_RealFaviconGenerator_Common::get_files_dir() );
+	$dir = Favicon_By_RealFaviconGenerator_Common::get_files_dir();
+	if ( file_exists( $dir ) ) {
+		Favicon_By_RealFaviconGenerator_Common::remove_directory( $dir );
+	}
 }
 
 if ( is_multisite() ) {
