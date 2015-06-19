@@ -4,6 +4,7 @@
 define( 'RFG_PACKAGE_URL',                  'package_url' );
 define( 'RFG_COMPRESSION',                  'compression' );
 define( 'RFG_HTML_CODE',                    'html_code' );
+define( 'RFG_FILES_URLS',                   'files_url' );
 define( 'RFG_FILES_IN_ROOT',                'files_in_root' );
 define( 'RFG_FILES_PATH',                   'files_path' );
 define( 'RFG_PREVIEW_PICTURE_URL',          'preview_picture_url' );
