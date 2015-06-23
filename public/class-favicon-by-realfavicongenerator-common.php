@@ -177,8 +177,9 @@ class Favicon_By_RealFaviconGenerator_Common {
 
 		$versions = $this->get_updates_list( $from, $to );
 		if ( $versions == NULL ) {
-			$this->log_info( 'No versions, no description' );
-			return NULL;
+			$this->log_info( 'No versions, return a link to the change log description' );
+			return sprintf( __( "Visit the <a href=\"%s\">RFG's change log</a> to view the content of the update" ),
+				'https://realfavicongenerator.net/change_log?since=' . $from );
 		}
 
 		$this->log_info( 'Versions to describe: ' . implode( ', ', $versions ) );
