@@ -186,8 +186,9 @@ class Favicon_By_RealFaviconGenerator_Common {
 
 		$descriptions = array();
 		foreach( $versions as $version ) {
+			$update = $this->get_update_data( $version );
 			array_push( $descriptions, 
-				'<p>' .  $this->get_update_data( $version )['description'] . '</p>' );
+				'<p>' .  $update['description'] . '</p>' );
 		}
 		return implode($descriptions);
 	}
