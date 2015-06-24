@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Favicon by RealFaviconGenerator package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Favicon by RealFaviconGenerator 1.2.14\n"
+"Project-Id-Version: Favicon by RealFaviconGenerator 1.3.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/favicon-by-"
 "realfavicongenerator\n"
-"POT-Creation-Date: 2015-04-23 07:14:25+00:00\n"
+"POT-Creation-Date: 2015-06-24 08:06:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,59 +13,67 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:76
 #: admin/class-favicon-by-realfavicongenerator-admin.php:77
-#: admin/class-favicon-by-realfavicongenerator-admin.php:81
+#: admin/class-favicon-by-realfavicongenerator-admin.php:78
+#: admin/class-favicon-by-realfavicongenerator-admin.php:82
 msgid "Favicon"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:80
+#: admin/class-favicon-by-realfavicongenerator-admin.php:81
 msgid "Favicon Settings"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:173
+#: admin/class-favicon-by-realfavicongenerator-admin.php:182
 msgid ""
 "Nonce was not recognized. This case is supposed to happen only in case of "
 "XSS attack. If you feel like something is wrong, please <a href=\\\"mailto:"
 "contact@realfavicongenerator.net\\\">contact us</a>."
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:181
+#: admin/class-favicon-by-realfavicongenerator-admin.php:190
+#: public/class-favicon-by-realfavicongenerator-common.php:414
 msgid "Cannot create directory %s to store the favicon package"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:381
-msgid ""
-"<a href=\"%s\" target=\"_blank\">An update is available</a> on "
-"RealFaviconGenerator. You might want to <a href=\"%s\">generate your favicon "
-"again</a>."
+#: admin/class-favicon-by-realfavicongenerator-admin.php:442
+msgid "An update is available on RealFaviconGenerator:"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:384
-msgid " | <a href=\"%s\">Hide this notice</a>"
+#: admin/class-favicon-by-realfavicongenerator-admin.php:448
+msgid "You might want to <a href=\"%s\">generate your favicon again</a>"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-admin.php:386
-msgid " | <a href=\"%s\">Do not warn me again in case of update</a>"
+#: admin/class-favicon-by-realfavicongenerator-admin.php:454
+#: admin/class-favicon-by-realfavicongenerator-admin.php:477
+msgid "Hide this notice"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-api-response.php:143
+#: admin/class-favicon-by-realfavicongenerator-admin.php:458
+#: admin/class-favicon-by-realfavicongenerator-admin.php:481
+msgid "Do not warn me again in case of update"
+msgstr ""
+
+#: admin/class-favicon-by-realfavicongenerator-admin.php:471
+msgid "Your favicon was updated automatically:"
+msgstr ""
+
+#: admin/class-favicon-by-realfavicongenerator-api-response.php:159
 msgid "Cannot create directory %s to store the favicon package content"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-api-response.php:152
+#: admin/class-favicon-by-realfavicongenerator-api-response.php:206
 msgid "Unknown reason"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-api-response.php:158
+#: admin/class-favicon-by-realfavicongenerator-api-response.php:212
 msgid "Error while unziping the favicon package %s to directory %s"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-api-response.php:234
+#: admin/class-favicon-by-realfavicongenerator-api-response.php:281
 msgid "Cannot download file at %s"
 msgstr ""
 
-#: admin/class-favicon-by-realfavicongenerator-api-response.php:237
+#: admin/class-favicon-by-realfavicongenerator-api-response.php:284
 msgid "Cannot store downloaded file locally"
 msgstr ""
 
@@ -181,6 +189,12 @@ msgstr ""
 
 #: admin/views/settings.php:36
 msgid "Save changes"
+msgstr ""
+
+#: public/class-favicon-by-realfavicongenerator-common.php:181
+msgid ""
+"Visit the <a href=\"%s\">RFG's change log</a> to view the content of the "
+"update"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
