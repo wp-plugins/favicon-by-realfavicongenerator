@@ -4,7 +4,7 @@ Tags: favicon, apple-touch-icon, realfavicongenerator
 Donate link: http://realfavicongenerator.net/donate
 Requires at least: 3.5
 Tested up to: 4.2.2
-Stable tag: 1.2.15
+Stable tag: 1.3.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 * Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
 * Brazilian Portuguese (`pt_BR`) by Marcelo Volgarini, [Criação de Sites](http://www.techload.com.br/criacao-de-sites-ribeirao-preto)
 * Dutch (`nl_NL`) by [Axel Vanderhaeghen](https://eco13.eu)
+* Danish (`da_DK`) by [Alexander Leo-Hansen](http://alexanderleohansen.dk/)
 
 == Installation ==
 
@@ -72,6 +73,10 @@ This screen presents you a preview of the favicon you various platforms, so you 
 5. You can also trigger RealFaviconGenerator's favicon checker, to make sure your favicon is correctly setup.
 
 == Changelog ==
+
+= 1.3.0 =
+
+- The plugin takes advantage of RealFaviconGenerator's non-interactive API to upgrade the favicon automatically whenever a new version is available.
 
 = 1.2.15 =
 

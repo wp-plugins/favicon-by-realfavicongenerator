@@ -1,14 +1,16 @@
 <?php
 // Copyright 2014 RealFaviconGenerator
 
-define( 'RFG_PACKAGE_URL',         'package_url' );
-define( 'RFG_COMPRESSION',         'compression' );
-define( 'RFG_HTML_CODE',           'html_code' );
-define( 'RFG_FILES_IN_ROOT',       'files_in_root' );
-define( 'RFG_FILES_PATH',          'files_path' );
-define( 'RFG_PREVIEW_PICTURE_URL', 'preview_picture_url' );
-define( 'RFG_CUSTOM_PARAMETER',    'custom_parameter' );
-define( 'RFG_VERSION',             'version' );
+define( 'RFG_PACKAGE_URL',                  'package_url' );
+define( 'RFG_COMPRESSION',                  'compression' );
+define( 'RFG_HTML_CODE',                    'html_code' );
+define( 'RFG_FILES_URLS',                   'files_url' );
+define( 'RFG_FILES_IN_ROOT',                'files_in_root' );
+define( 'RFG_FILES_PATH',                   'files_path' );
+define( 'RFG_PREVIEW_PICTURE_URL',          'preview_picture_url' );
+define( 'RFG_CUSTOM_PARAMETER',             'custom_parameter' );
+define( 'RFG_VERSION',                      'version' );
+define( 'RFG_NON_INTERACTIVE_API_REQUEST',  'non_interactive_api_request' );
 
 define( 'RFG_FAVICON_PRODUCTION_PACKAGE_PATH',   'favicon_production_package_path' );
 define( 'RFG_FAVICON_COMPRESSED_PACKAGE_PATH',   'favicon_compressed_package_path' );
@@ -54,6 +56,8 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 		
 		$this->params[RFG_CUSTOM_PARAMETER] = $this->getParam( $response, 'custom_parameter', false );
 		$this->params[RFG_VERSION] = $this->getParam($response, 'version', false );
+
+		$this->params[RFG_NON_INTERACTIVE_API_REQUEST] = $this->getParam($response, 'non_interactive_request', false );
     }
 
 	/**
@@ -117,6 +121,13 @@ class Favicon_By_RealFaviconGenerator_Api_Response {
 	 */
 	public function getVersion() {
 		return $this->params[RFG_VERSION];
+	}
+
+	/**
+	 * Return the non-interactive API request that matches the current interactive request.
+	 */
+	public function getNonInteractiveAPIRequest() {
+		return $this->params[RFG_NON_INTERACTIVE_API_REQUEST];
 	}
 	
 	private function getParam( $params, $paramName, $throwIfNotFound = true ) {

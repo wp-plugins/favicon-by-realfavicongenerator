@@ -7,6 +7,7 @@ require_once plugin_dir_path( __FILE__ ) . 'class-favicon-by-realfavicongenerato
 class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenerator_Common {
 
 	const DISMISS_UPDATE_NOTIICATION = 'fbrfg_dismiss_update_notification';
+	const DISMISS_AUTOMATIC_UPDATE_NOTIICATION = 'fbrfg_dismiss_autmatic_update_notification';
 	const DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS = 'fbrfg_dismiss_all_update_notifications';
 	const SETTINGS_FORM = 'fbrfg_settings_form';
 	const NONCE_ACTION_NAME = 'favicon_generation';
@@ -28,7 +29,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		add_action( 'init', array( $this, 'register_admin_actions' ) );
 
 		// Check for updates
-		add_action( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE, array( $this, 'check_for_updates' )  );
+		add_action( Favicon_By_RealFaviconGenerator_Common::ACTION_CHECK_FOR_UPDATE, array( $this, 'check_for_updates' ) );
 	}
 
 	/**
@@ -191,7 +192,7 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
 				update_option( Favicon_By_RealFaviconGenerator_Common::OPTION_HTML_CODE, $response->getHtmlCode() );
 				
-				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion() );
+				$this->set_favicon_configured( true, $response->isFilesInRoot(), $response->getVersion(), $response->getNonInteractiveAPIRequest() );
 ?>
 {
 	"status": "success",
@@ -356,36 +357,124 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 		return get_user_option( $option_name );
 	}
 
-	public function is_update_notice_to_be_displayed() {
-		// No update? No notice
-		if ( ! $this->is_update_available() ) {
+	public function is_manual_update_notice_to_be_displayed() {
+		$this->log_info( 'Check if manual update notice should be displayed' );
+
+		if ( isset($_REQUEST['json_result_url'] ) ) {
+			$this->log_info( 'Favicon installation in progress, disable notice' );
 			return false;
 		}
 
 		// Did the user prevent all notices?
-		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available() ) ) {
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE ) ) {
+			$this->log_info( 'User disabled all update notices' );
+			return false;
+		}
+
+		// No update
+		if ( $this->get_latest_manual_available_update() == NULL ) {
+			$this->log_info( 'There is no pending manual update' );
 			return false;
 		}
 
 		// Did the user prevent the notice for this particular version?
-		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE ) ) {
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_manual_available_update() ) ) {
+			$this->log_info( 'User disabled update notices for ' . $this->get_latest_manual_available_update() );
 			return false;
 		}
 
+		// If, for some reasons, the current version matches the "latest update", 
+		// then the updated was already done.
+		$result = ( $this->get_latest_manual_available_update() != $this->get_favicon_current_version() );
+		$this->log_info( 'Compare current version (' . $this->get_favicon_current_version() . ') and latest update (' . 
+			$this->get_latest_manual_available_update() . '): ' . ( $result ? 'true' : 'false' ) );
+
+		return $result;
+	}
+
+	public function is_automatic_update_notice_to_be_displayed() {
+		$this->log_info( 'Check if automatic update notice should be displayed' );
+
+		if ( isset($_REQUEST['json_result_url'] ) ) {
+			$this->log_info( 'Favicon installation in progress, disable notice' );
+			return false;
+		}
+
+		// Did the user prevent all notices?
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE ) ) {
+			$this->log_info( 'User disabled all update notices' );
+			return false;
+		}
+
+		$versions = $this->get_most_recent_automatic_update();
+		// Was there an update?
+		if ( $versions == NULL ) {
+			$this->log_info( 'There was no automatic update' );
+			return false;
+		}
+
+		// Did the user prevent the notice for this particular version?
+		if ( $this->get_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_AUTOMATIC_UPDATE_NOTICE_FOR_VERSION . $versions[0] . '_' . $versions[1] ) ) {
+			$this->log_info( 'User disabled update notice for update from ' . $versions[0] . ' to ' . $versions[1] );
+			return false;
+		}
+
+		$this->log_info( 'Automatic update notice should be displayed' );
 		return true;
 	}
 
 	public function display_update_notice() {
-		if ( $this->is_update_notice_to_be_displayed() ) {
-			echo '<div class="update-nag">';
-			printf( __( '<a href="%s" target="_blank">An update is available</a> on RealFaviconGenerator. You might want to <a href="%s">generate your favicon again</a>.', FBRFG_PLUGIN_SLUG ),
-					'http://realfavicongenerator.net/change_log?since='. $this->get_favicon_version(),
-					admin_url( 'themes.php?page=' . __FILE__ . 'favicon_appearance_menu') );
-			printf( __( ' | <a href="%s">Hide this notice</a>', FBRFG_PLUGIN_SLUG), 
-				$this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION . '=0' ) );
-			printf( __( ' | <a href="%s">Do not warn me again in case of update</a>', FBRFG_PLUGIN_SLUG), 
-				$this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS . '=0' ) );
-			echo '</div>';
+		if ( $this->is_manual_update_notice_to_be_displayed() ) {
+			$this->log_info( 'Display manual update notice' );
+
+			$description = $this->get_updates_description( $this->get_favicon_current_version(), $this->get_latest_manual_available_update() );
+?>
+<div class="update-nag">
+	<p>
+		<strong><?php _e( 'An update is available on RealFaviconGenerator:', FBRFG_PLUGIN_SLUG ) ?></strong>
+	</p>
+
+	<?php echo $description ?>
+
+	<p>
+		<?php printf( __( 'You might want to <a href="%s">generate your favicon again</a>', 
+			FBRFG_PLUGIN_SLUG ), admin_url( 'themes.php?page=' . __FILE__ . 'favicon_appearance_menu') ) ?>
+	</p>
+
+	<p>
+		<a href="<?php echo $this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION . '=0' ) ?>">
+			<?php _e( 'Hide this notice', FBRFG_PLUGIN_SLUG) ?>
+		</a>
+		|
+		<a href="<?php echo $this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS . '=0' ) ?>">
+			<?php _e( 'Do not warn me again in case of update', FBRFG_PLUGIN_SLUG) ?>
+		</a>
+	</p>
+</div>
+<?php
+		}
+		else if ( $this->is_automatic_update_notice_to_be_displayed() ) {
+			$this->log_info( 'Display automatic update notice' );
+
+			$auto_versions = $this->get_most_recent_automatic_update();
+			$description = $this->get_updates_description( $auto_versions[0], $auto_versions[1] );
+?>
+<div class="update-nag">
+	<p><strong><?php _e( 'Your favicon was updated automatically:', FBRFG_PLUGIN_SLUG ) ?></strong></p>
+
+	<?php echo $description ?>
+
+	<p>
+		<a href="<?php echo $this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_AUTOMATIC_UPDATE_NOTIICATION . '=0' ) ?>">
+			<?php _e( 'Hide this notice', FBRFG_PLUGIN_SLUG) ?>
+		</a>
+		|
+		<a href="<?php echo $this->add_parameter_to_current_url( Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_ALL_UPDATE_NOTIICATIONS . '=0' ) ?>">
+			<?php _e( 'Do not warn me again in case of update', FBRFG_PLUGIN_SLUG) ?>
+		</a>
+	</p>
+</div>
+<?php
 		}
 	}
 
@@ -395,7 +484,16 @@ class Favicon_By_RealFaviconGenerator_Admin extends Favicon_By_RealFaviconGenera
 
         if ( isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) && 
         		'0' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_UPDATE_NOTIICATION] ) {
-             $this->set_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available(), true );
+        	$this->log_info( 'Disable manual update notice for ' . $this->get_latest_version_available() );
+            $this->set_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_UPDATE_NOTICE_FOR_VERSION . $this->get_latest_version_available(), true );
+	    }
+
+        if ( isset( $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_AUTOMATIC_UPDATE_NOTIICATION] ) && 
+        		'0' == $_REQUEST[Favicon_By_RealFaviconGenerator_Admin::DISMISS_AUTOMATIC_UPDATE_NOTIICATION] ) {
+        	$versions = $this->get_most_recent_automatic_update();
+        	$this->log_info( 'Disable automatic update notice for ' . $versions[0] . '-' . $versions[1] );
+            $this->set_boolean_user_option( Favicon_By_RealFaviconGenerator_Common::META_NO_AUTOMATIC_UPDATE_NOTICE_FOR_VERSION . 
+             	$versions[0] . '_' . $versions[1], true );
 	    }
 
 	    $no_notices = NULL;
