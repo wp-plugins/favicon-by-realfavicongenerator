@@ -38,6 +38,7 @@ We take compatibility very seriously. See http://realfavicongenerator.net/favico
 * Swedish (`sv_SE`) by [Linus Wileryd](https://twitter.com/wileryd)
 * Brazilian Portuguese (`pt_BR`) by Marcelo Volgarini, [Criação de Sites](http://www.techload.com.br/criacao-de-sites-ribeirao-preto)
 * Dutch (`nl_NL`) by [Axel Vanderhaeghen](https://eco13.eu)
+* Danish (`da_DK`) by [Alexander Leo-Hansen](http://alexanderleohansen.dk/)
 
 == Installation ==
 
